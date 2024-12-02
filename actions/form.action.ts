@@ -173,3 +173,49 @@ export async function fetchFormById(formId: string) {
     };
   }
 }
+
+export async function UpdateForm(data: {
+  formId: string;
+  name: string;
+  description: string;
+  jsonBlocks: string;
+}) {
+  try {
+    const { formId, name, description, jsonBlocks } = data;
+    const session = getKindeServerSession();
+    const user = await session.getUser();
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Unauthorized to use this resource",
+      };
+    }
+
+    if (!formId || !jsonBlocks) {
+      return {
+        success: false,
+        message: "Invalid input data",
+      };
+    }
+    const form = await prisma.form.update({
+      where: { formId: formId },
+      data: {
+        ...(name && { name }), // Only update if name is provided
+        ...(description && { description }), // Only update if description is provided
+        jsonBlocks,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Form updated successfully",
+      data: form,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "An error occurred while updating the form",
+    };
+  }
+}

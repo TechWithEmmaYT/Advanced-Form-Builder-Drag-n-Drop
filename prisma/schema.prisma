@@ -17,11 +17,11 @@ datasource db {
 
 model Form {
   id           Int           @id @default(autoincrement())
-  formId       String        @default(uuid())
+  formId       String        @unique @default(uuid())
   userId       String
   name         String
   description  String        @default("")
-  blocks      String        @default("[]")
+  jsonBlocks   String        @default("[]")
   views        Int           @default(0)
   responses    Int           @default(0)
   published    Boolean       @default(false)

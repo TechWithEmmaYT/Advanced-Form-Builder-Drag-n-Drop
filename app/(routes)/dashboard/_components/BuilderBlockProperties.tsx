@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useBuilder } from "@/context/builder-provider";
 import { FormBlocks } from "@/@types/form-block.type";
 import PreviewDialog from "./_common/PreviewDialog";
+import SaveFormBtn from "./_common/SaveFormBtn";
 
 const BuilderBlockProperties = () => {
   const { selectedBlockLayout } = useBuilder();
@@ -22,13 +23,7 @@ const BuilderBlockProperties = () => {
           <div className="flex flex-col w-full items-center h-auto min-h-full">
             <div className="w-full flex flex-row items-center bg-white pb-2 pt-3  sticky border-b top-0  gap-2 px-2">
               <PreviewDialog />
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent !text-primary !border-primary"
-              >
-                <Save /> Save
-              </Button>
+              <SaveFormBtn />
               <Button size="sm" variant="default">
                 <Send /> Publish
               </Button>
