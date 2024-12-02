@@ -13,3 +13,11 @@ export const fontSizeClass = {
   "2x-large": "text-2xl",
   "4x-large": "text-4xl",
 };
+
+export const blockLayouts = [
+  "RowLayout",
+  "SectionLayout",
+  "ContainerLayout",
+  "ColumnLayout",
+  "GridLayout",
+];

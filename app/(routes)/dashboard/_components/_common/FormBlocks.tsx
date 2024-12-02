@@ -3,8 +3,12 @@ import BlockBtnElement from "@/components/BlockBtnElement";
 import { FormBlocks } from "@/@types/form-block.type";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useBuilder } from "@/context/builder-provider";
 
 const FormBlockBox = () => {
+  const { formData } = useBuilder();
+  const isPublished = formData?.published;
+
   const [search, setSearch] = useState<string>("");
 
   const filteredBlocks = Object.values(FormBlocks).filter((block) =>
@@ -26,6 +30,7 @@ const FormBlockBox = () => {
           placeholder="Search Blocks"
           className="bg-gray-100 placeholder:text-gray-400 border"
           value={search}
+          disabled={isPublished}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
@@ -35,7 +40,11 @@ const FormBlockBox = () => {
             <h5 className="text-[13px] text-gray-500 font-medium">Layout</h5>
             <div className="pt-1 grid grid-cols-3 gap-3">
               {layoutBlocks.map((block) => (
-                <BlockBtnElement key={block.blockType} formBlock={block} />
+                <BlockBtnElement
+                  key={block.blockType}
+                  formBlock={block}
+                  disabled={isPublished}
+                />
               ))}
             </div>
           </div>
@@ -46,7 +55,11 @@ const FormBlockBox = () => {
             <h5 className="text-[13px] text-gray-500 font-medium">Form</h5>
             <div className="pt-1 grid grid-cols-3 gap-3">
               {formBlocks.map((block) => (
-                <BlockBtnElement key={block.blockType} formBlock={block} />
+                <BlockBtnElement
+                  key={block.blockType}
+                  formBlock={block}
+                  disabled={isPublished}
+                />
               ))}
             </div>
           </div>

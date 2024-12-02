@@ -1,12 +1,17 @@
 "use client";
 
 import { FormBlockInstance } from "@/@types/form-block.type";
+import { FormWithSettings } from "@/@types/form.type";
+import { fetchFormById } from "@/actions/form.action";
 import { generateUniqueId } from "@/lib/helper";
-import { createContext, useContext, useState } from "react";
+import { useParams } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type BulderContextType = {
+  loading: boolean;
+  formData: FormWithSettings | null;
+  setFormData: React.Dispatch<React.SetStateAction<FormWithSettings | null>>;
   blocks: FormBlockInstance[];
-
   addBlock: (block: FormBlockInstance) => void;
   updateBlockLayout: (id: string, childrenBlocks: FormBlockInstance[]) => void;
 
@@ -42,39 +47,40 @@ export default function BuilderContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [blocks, setBlocks] = useState<FormBlockInstance[]>([
-    {
-      id: "row-block-67890",
-      blockType: "RowLayout",
-      attributes: {},
-      isLocked: true,
-      childblocks: [
-        {
-          id: "heading-block-33445",
-          blockType: "Heading",
-          attributes: {
-            label: "Untitled form",
-            level: 1, // Default to H1
-            fontSize: "4x-large",
-            fontWeight: "normal",
-          },
-        },
-        {
-          id: "paragraph-block-12345",
-          blockType: "Paragraph",
-          attributes: {
-            label: "Paragraph",
-            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis sem odio. Sed commodo vestibulum leo.",
-            fontSize: "small",
-            fontWeight: "normal",
-          },
-        },
-      ],
-    },
-  ]);
+  const params = useParams();
+  const formId = params.formId as string;
+
+  const [formData, setFormData] = useState<FormWithSettings | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [blocks, setBlocks] = useState<FormBlockInstance[]>([]);
 
   const [selectedBlockLayout, setSeletedBlockLayout] =
     useState<FormBlockInstance | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (!formId) return;
+        const { form } = await fetchFormById(formId);
+        if (form) {
+          setFormData(form);
+          // Parse `blocks` from the form's `jsonBlocks`
+          if (form.jsonBlocks) {
+            const parsedBlocks = JSON.parse(form.jsonBlocks);
+            setBlocks(parsedBlocks);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching form:", error);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+
+    fetchData();
+  }, [formId]);
 
   const addBlock = (block: FormBlockInstance) => {
     setBlocks((prev) => {
@@ -128,6 +134,10 @@ export default function BuilderContextProvider({
 
   // B.S -> SELECT BLOCK ROW LAYOUT
   const handleSelectedLayout = (block: FormBlockInstance | null) => {
+    if (formData?.published) {
+      setSeletedBlockLayout(null);
+      return;
+    }
     setSeletedBlockLayout(block);
   };
 
@@ -202,6 +212,9 @@ export default function BuilderContextProvider({
   return (
     <BuilderContext.Provider
       value={{
+        loading,
+        formData,
+        setFormData,
         blocks,
         addBlock,
         updateBlockLayout,
@@ -227,3 +240,32 @@ export function useBuilder() {
   }
   return context;
 }
+
+// {
+//     id: "row-block-67890",
+//     blockType: "RowLayout",
+//     attributes: {},
+//     isLocked: true,
+//     childblocks: [
+//       {
+//         id: "heading-block-33445",
+//         blockType: "Heading",
+//         attributes: {
+//           label: "Untitled form",
+//           level: 1, // Default to H1
+//           fontSize: "4x-large",
+//           fontWeight: "normal",
+//         },
+//       },
+//       {
+//         id: "paragraph-block-12345",
+//         blockType: "Paragraph",
+//         attributes: {
+//           label: "Paragraph",
+//           text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis sem odio. Sed commodo vestibulum leo.",
+//           fontSize: "small",
+//           fontWeight: "normal",
+//         },
+//       },
+//     ],
+//   },

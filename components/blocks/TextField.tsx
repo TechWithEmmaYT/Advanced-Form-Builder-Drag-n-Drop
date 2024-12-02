@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -14,6 +14,7 @@ import {
   FormBlockInstance,
   FormBlockType,
   FormCategoryType,
+  HandleChangeFunc,
 } from "@/@types/form-block.type";
 import { ChevronDown, TextCursorInput } from "lucide-react";
 import { Label } from "../ui/label";
@@ -96,18 +97,32 @@ function CanvasComponent({
 
 function FormComponent({
   blockInstance,
+  handleChange,
 }: {
   blockInstance: FormBlockInstance;
+  handleChange?: HandleChangeFunc;
 }) {
   const block = blockInstance as CustomInstance;
   const { helperText, label, placeHolder, required } = block.attributes;
+
+  const [value, setValue] = useState("");
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label className="text-base !font-normal mb-2">
         {label}
         {required && <span className="text-red-500">*</span>}
       </Label>
-      <Input className="h-10" placeholder={placeHolder} />
+      <Input
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        onBlur={(event) => {
+          console.log(event.target.value, "blurred");
+          if (!handleChange) return;
+          handleChange(block.id, event.target.value);
+        }}
+        className="h-10"
+        placeholder={placeHolder}
+      />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}

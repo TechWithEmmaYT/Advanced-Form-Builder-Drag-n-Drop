@@ -14,6 +14,8 @@ export type FormBlockType =
   | "TextField";
 export type FormCategoryType = "Layout" | "Form";
 
+export type HandleChangeFunc = (key: string, value: string) => void;
+
 export type FormBlock = {
   blockType: FormBlockType;
   blockCategory: FormCategoryType;
@@ -30,6 +32,7 @@ export type FormBlock = {
   }>;
   formComponent: React.FC<{
     blockInstance: FormBlockInstance;
+    handleChange?: (key: string, value: string) => void;
   }>;
   propertiesComponent: React.FC<{
     positionIndex?: number;

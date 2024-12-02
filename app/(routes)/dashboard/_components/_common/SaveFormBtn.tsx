@@ -4,19 +4,21 @@ import { Loader, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBuilder } from "@/context/builder-provider";
 import { UpdateForm } from "@/actions/form.action";
-import { useParams } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const SaveFormBtn = () => {
-  const params = useParams();
-  const formId = params.formId as string;
+  const { formData, setFormData } = useBuilder();
+  const formId = formData?.formId;
 
   const { blocks } = useBuilder();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const updateForm = async () => {
+  const saveForm = async () => {
     try {
+      if (!formId) return;
+
       setIsLoading(true);
       const lockedBlock = blocks.find((block) => block.isLocked);
       const name = lockedBlock?.childblocks?.find(
@@ -42,6 +44,12 @@ const SaveFormBtn = () => {
           title: "Success",
           description: response.message,
         });
+
+        if (response.data)
+          setFormData({
+            ...formData,
+            ...response.data,
+          });
       } else {
         toast({
           title: "Error",
@@ -63,12 +71,15 @@ const SaveFormBtn = () => {
     <Button
       variant="outline"
       size="sm"
-      disabled={isLoading}
-      className="bg-transparent !text-primary !border-primary"
-      onClick={updateForm}
+      disabled={isLoading || formData?.published}
+      className={cn(
+        "bg-transparent !text-primary !border-primary",
+        formData?.published ? "cursor-default pointer-events-none" : ""
+      )}
+      onClick={saveForm}
     >
-      <Save /> Save
-      {isLoading && <Loader className="w-4 h-4 animate-spin" />}
+      {isLoading ? <Loader className="w-4 h-4 animate-spin" /> : <Save />}
+      Save
     </Button>
   );
 };

@@ -19,14 +19,14 @@ import {
 import FormSettings from "./_common/FormSettings";
 import FormBlockBox from "./_common/FormBlocks";
 import { cn } from "@/lib/utils";
+import { useBuilder } from "@/context/builder-provider";
 
 export function BuilderSidebar({
-  formName,
   rest,
 }: {
-  formName: string;
   rest?: React.ComponentProps<typeof Sidebar>;
 }) {
+  const { formData } = useBuilder();
   const [tab, setTab] = useState<"blocks" | "settings">("blocks");
   return (
     <Sidebar className="border-r left-12 pt-16" {...rest}>
@@ -45,7 +45,7 @@ export function BuilderSidebar({
                   <BreadcrumbPage className="flex items-center gap-1">
                     <FileTextIcon className="w-4 h-4 mb-[3px]" />
                     <h5 className="truncate flex w-[110px] text-sm">
-                      {formName}
+                      {formData?.name || "Untitled"}
                     </h5>
                   </BreadcrumbPage>
                 </BreadcrumbItem>

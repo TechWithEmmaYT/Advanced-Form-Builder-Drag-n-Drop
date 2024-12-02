@@ -58,7 +58,7 @@ const Header = () => {
         </li>
         <li className="relative h-full">
           <Link
-            href="/dashboard/settings"
+            href="#"
             className="text-white/90 text-[15.5px] font-normal opacity-90 px-4 flex items-center h-full  transition-colors hover:text-opacity-95"
           >
             Settings

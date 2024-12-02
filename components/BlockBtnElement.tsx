@@ -4,10 +4,17 @@ import { Button } from "./ui/button";
 import { useDraggable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils";
 
-const BlockBtnElement = ({ formBlock }: { formBlock: FormBlock }) => {
+const BlockBtnElement = ({
+  formBlock,
+  disabled,
+}: {
+  formBlock: FormBlock;
+  disabled?: boolean;
+}) => {
   const { icon: Icon, label } = formBlock.blockBtnElement;
   const draggable = useDraggable({
     id: `block-btn-${formBlock.blockType}`,
+    disabled: disabled,
     data: {
       blockType: formBlock.blockType,
       isBlockBtnElement: true,
@@ -16,11 +23,13 @@ const BlockBtnElement = ({ formBlock }: { formBlock: FormBlock }) => {
   return (
     <Button
       variant="outline"
+      disabled={disabled}
       ref={draggable.setNodeRef}
       className={cn(
         `flex flex-col gap-2 
     h-20 w-20  cursor-grab border hover:!bg-white hover:ring-1 hover:!ring-primary`,
-        draggable.isDragging && "ring-2 ring-primary shadow-xl"
+        draggable.isDragging && "ring-2 ring-primary shadow-xl",
+        disabled && "!cursor-default !pointer-events-none"
       )}
       {...draggable.listeners}
       {...draggable.attributes}

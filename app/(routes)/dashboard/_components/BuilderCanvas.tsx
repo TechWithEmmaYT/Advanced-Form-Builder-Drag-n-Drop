@@ -15,6 +15,7 @@ import {
   FormBlockType,
 } from "@/@types/form-block.type";
 import { generateUniqueId } from "@/lib/helper";
+import { blockLayouts } from "@/constant";
 
 const BuilderCanvas = () => {
   const {
@@ -46,13 +47,15 @@ const BuilderCanvas = () => {
       setActiveBlock(null);
 
       const isBlockBtnElement = active.data?.current?.isBlockBtnElement;
-      const isRowLayout = active.data?.current?.blockType;
+      const isBlockLayout = active.data?.current?.blockType;
 
       const isDraggingOverCanvas = over.data?.current?.isBuilderCanvasDropArea;
 
+      //isBlockLayout === "RowLayout" &&
+
       if (
         isBlockBtnElement &&
-        isRowLayout === "RowLayout" &&
+        blockLayouts.includes(isBlockLayout) &&
         isDraggingOverCanvas
       ) {
         const blockType = active.data?.current?.blockType;
@@ -66,16 +69,16 @@ const BuilderCanvas = () => {
 
       // SECOND -> NEW BLOCK ROW LAYOUT TO A SPECIFIC POSITION
 
-      const isDroppingOverCanvasRowLayoutAbove = over.data?.current?.isAbove;
-      const isDroppingOverCanvasRowLayoutBelow = over.data?.current?.isBelow;
+      const isDroppingOverCanvasBlockLayoutAbove = over.data?.current?.isAbove;
+      const isDroppingOverCanvasBlockLayoutBelow = over.data?.current?.isBelow;
 
       const isDroppingOverCanvasRowLayout =
-        isDroppingOverCanvasRowLayoutAbove ||
-        isDroppingOverCanvasRowLayoutBelow;
+        isDroppingOverCanvasBlockLayoutAbove ||
+        isDroppingOverCanvasBlockLayoutBelow;
 
       const droppingLayoutBlockOverCanvas =
         isBlockBtnElement &&
-        isRowLayout === "RowLayout" &&
+        blockLayouts.includes(isBlockLayout) &&
         isDroppingOverCanvasRowLayout;
 
       if (droppingLayoutBlockOverCanvas) {
@@ -92,7 +95,7 @@ const BuilderCanvas = () => {
         const targetBlockId = over.data?.current?.blockId;
 
         let position: "above" | "below" = "below";
-        if (isDroppingOverCanvasRowLayoutAbove) {
+        if (isDroppingOverCanvasBlockLayoutAbove) {
           position = "above";
         }
         // console.log(
@@ -121,7 +124,7 @@ const BuilderCanvas = () => {
         const overId = over.data?.current?.blockId;
 
         let position: "above" | "below" = "below";
-        if (isDroppingOverCanvasRowLayoutAbove) {
+        if (isDroppingOverCanvasBlockLayoutAbove) {
           position = "above";
         }
 
@@ -158,11 +161,11 @@ const BuilderCanvas = () => {
 
           {blocks.length > 0 && (
             <div className="flex flex-col w-full gap-4">
-              {blocks.map((block) => (
+              {blocks.map((blockLayout) => (
                 <CanvasBlockWrapper
-                  key={block.id}
+                  key={blockLayout.id}
                   activeBlock={activeBlock}
-                  blockLayout={block}
+                  blockLayout={blockLayout}
                 />
               ))}
             </div>

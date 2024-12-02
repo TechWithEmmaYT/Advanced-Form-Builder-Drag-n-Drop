@@ -1,10 +1,10 @@
 import React from "react";
-import { Eye, Layout, Save, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Layout } from "lucide-react";
 import { useBuilder } from "@/context/builder-provider";
 import { FormBlocks } from "@/@types/form-block.type";
 import PreviewDialog from "./_common/PreviewDialog";
 import SaveFormBtn from "./_common/SaveFormBtn";
+import PublishFormBtn from "./_common/PublishFormBtn";
 
 const BuilderBlockProperties = () => {
   const { selectedBlockLayout } = useBuilder();
@@ -12,7 +12,6 @@ const BuilderBlockProperties = () => {
   const RowPropertyBlock =
     selectedBlockLayout &&
     FormBlocks[selectedBlockLayout?.blockType]?.propertiesComponent;
-  console.log(selectedBlockLayout, "selectedBlockLayout");
   return (
     <>
       <div className="relative w-[300px]">
@@ -24,9 +23,7 @@ const BuilderBlockProperties = () => {
             <div className="w-full flex flex-row items-center bg-white pb-2 pt-3  sticky border-b top-0  gap-2 px-2">
               <PreviewDialog />
               <SaveFormBtn />
-              <Button size="sm" variant="default">
-                <Send /> Publish
-              </Button>
+              <PublishFormBtn />
             </div>
             {!selectedBlockLayout ? (
               <div className="text-muted-foreground  w-full flex flex-col items-center justify-center flex-1 h-auto">
@@ -53,27 +50,3 @@ const BuilderBlockProperties = () => {
 };
 
 export default BuilderBlockProperties;
-
-{
-  /* 
-        <div className="hidden fixed border top-20 w-14 right-8  min-h-60 h-full bg-white p-2 rounded-t-md  shadow-md">
-          <div className="flex flex-col items-center gap-3">
-            <Button variant="outline" size="icon">
-              <Laptop />
-            </Button>
-            <Button variant="outline" size="icon">
-              <Smartphone />
-            </Button>
-            <Button variant="outline" size="icon">
-              <Eye />
-            </Button>
-            <Button variant="outline" size="icon">
-              <Save />
-            </Button>
-            <Separator />
-            <Button variant="default" size="icon">
-              <Send />
-            </Button>
-          </div>
-        </div> */
-}

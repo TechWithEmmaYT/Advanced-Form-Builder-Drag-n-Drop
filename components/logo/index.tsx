@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 
-const Logo = (props: { url?: string }) => {
-  const { url = "/" } = props;
+const Logo = (props: { url?: string; color?: string }) => {
+  const { url = "/", color = "text-white" } = props;
   return (
     <div
       className="flex items-center justify-center
@@ -20,8 +21,8 @@ const Logo = (props: { url?: string }) => {
         >
           F
         </div>
-        <h5 className="font-bold text-[20px] text-white tracking-[-0.07em] ">
-          Formy
+        <h5 className={cn("font-bold text-[20px] tracking-[-0.07em] ", color)}>
+          Formy.ai
         </h5>
       </Link>
     </div>
