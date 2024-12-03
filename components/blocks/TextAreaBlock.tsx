@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { ChevronDown, LetterTextIcon } from "lucide-react";
@@ -19,6 +19,7 @@ import {
   FormBlockInstance,
   FormBlockType,
   FormCategoryType,
+  HandleBlurFunc,
 } from "@/@types/form-block.type";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
@@ -105,9 +106,13 @@ function CanvasComponent({
 
 function FormComponent({
   blockInstance,
+  handleBlur,
 }: {
   blockInstance: FormBlockInstance;
+  handleBlur?: HandleBlurFunc;
 }) {
+  const [value, setValue] = useState("");
+
   const block = blockInstance as CustomInstance;
   const { label, placeHolder, required, helperText, rows, cols } =
     block.attributes; // Destructure attributes
@@ -123,6 +128,15 @@ function FormComponent({
         rows={rows || 3} // Default row value if not provided
         cols={cols || 50} // Default column value if not provided
         className="resize-none !min-h-[50px]"
+        value={value}
+        onChange={(event) => {
+          setValue(event.target.value);
+        }}
+        onBlur={(event) => {
+          console.log(event.target.value, "blurred");
+          if (!handleBlur) return;
+          handleBlur(block.id, event.target.value);
+        }}
       />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>

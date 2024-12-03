@@ -39,9 +39,8 @@ const FormItem = (props: {
     <div onClick={onClick} role="button" className="w-full h-auto">
       <div
         className="w-full relative flex items-center justify-center overflow-hidden h-[150px] rounded-t-xl border border-gray-300
-      bg-gradient-to-b from-[#2d31fa]/10 to-[#2d31fa]/10
+      bg-gradient-to-b from-primary/10 to-primary/10
       "
-        style={{ background: backgroundColor }}
       >
         <div className=" w-36 absolute bottom-0 flex items-center flex-col px-4 pt-6 h-32 rounded-t-xl bg-white shadow-lg">
           <h5 className="text-sm font-medium mb-1 text-center text-gray-400 truncate">

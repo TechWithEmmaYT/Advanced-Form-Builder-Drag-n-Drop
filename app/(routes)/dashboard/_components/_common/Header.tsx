@@ -15,8 +15,10 @@ const Header = () => {
   const { user } = useKindeBrowserClient();
   const pathname = usePathname();
   const { formId } = useParams();
+
+  //[#2d31fa] !bg-[#051367]
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 !bg-[#051367] px-4 md:px-6">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 !bg-[#43217c] px-4 md:px-6">
       <nav className="hidden flex-col gap-6 h-full text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-[10px]">
         <div className="flex items-center mr-5 pr-8  border-r border-gray-600">
           <Logo url="/dashboard" />
@@ -53,7 +55,7 @@ const Header = () => {
             Responds
           </Link>
           {pathname === `/dashboard/form/responds/${formId}` && (
-            <div className="absolute top-0 left-0 right-0 h-[52px] bg-[#2d31fa] rounded-b-xl -z-[1]" />
+            <div className="absolute top-0 left-0 right-0 h-[52px] bg-primary rounded-b-xl -z-[1]" />
           )}
         </li>
         <li className="relative h-full">
@@ -64,7 +66,7 @@ const Header = () => {
             Settings
           </Link>
           {pathname === "/dashboard/settings" && (
-            <div className="absolute top-0 left-0 right-0 h-[52px] bg-[#2d31fa] transition-colors rounded-b-xl -z-[1]" />
+            <div className="absolute top-0 left-0 right-0 h-[52px] bg-primary transition-colors rounded-b-xl -z-[1]" />
           )}
         </li>
       </nav>

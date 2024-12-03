@@ -73,7 +73,7 @@ const SaveFormBtn = () => {
       size="sm"
       disabled={isLoading || formData?.published}
       className={cn(
-        "bg-transparent !text-primary !border-primary",
+        "!text-primary !bg-primary/10 !border-primary",
         formData?.published ? "cursor-default pointer-events-none" : ""
       )}
       onClick={saveForm}

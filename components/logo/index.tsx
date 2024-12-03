@@ -14,7 +14,7 @@ const Logo = (props: { url?: string; color?: string }) => {
         <div
           className="font-bold size-[30px] text-gray-50
           rounded-lg flex items-center border-2 dark:border-gray-200
-             justify-center bg-gradient-to-br from-blue-500 to-primary to-90%
+             justify-center bg-gradient-to-br from-purple-500 to-primary to-90%
              !font-mono italic
                   "
           style={{ fontSize: "19px" }}

@@ -71,7 +71,7 @@ const CreateForm = () => {
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button className="!bg-[#2d31fa] !font-medium">
+          <Button className="!bg-primary !font-medium">
             <PlusIcon />
             Create a form
           </Button>
@@ -124,7 +124,7 @@ const CreateForm = () => {
                   <Button
                     type="submit"
                     disabled={form.formState.isSubmitting}
-                    className="flex px-5 place-self-end !bg-[#2d31fa]"
+                    className="flex px-5 place-self-end !bg-primary"
                   >
                     {form.formState.isSubmitting && (
                       <Loader className="w-4 h-4 animate-spin" />

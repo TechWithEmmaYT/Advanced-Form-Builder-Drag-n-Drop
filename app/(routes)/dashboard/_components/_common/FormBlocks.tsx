@@ -28,7 +28,7 @@ const FormBlockBox = () => {
       <div className="py-4 text-sm">
         <Input
           placeholder="Search Blocks"
-          className="bg-gray-100 placeholder:text-gray-400 border"
+          className="bg-gray-50 placeholder:text-gray-400 border"
           value={search}
           disabled={isPublished}
           onChange={(e) => setSearch(e.target.value)}

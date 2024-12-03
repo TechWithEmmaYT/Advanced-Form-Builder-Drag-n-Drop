@@ -14,7 +14,7 @@ import {
   FormBlockInstance,
   FormBlockType,
   FormCategoryType,
-  HandleChangeFunc,
+  HandleBlurFunc,
 } from "@/@types/form-block.type";
 import { ChevronDown, TextCursorInput } from "lucide-react";
 import { Label } from "../ui/label";
@@ -97,10 +97,10 @@ function CanvasComponent({
 
 function FormComponent({
   blockInstance,
-  handleChange,
+  handleBlur,
 }: {
   blockInstance: FormBlockInstance;
-  handleChange?: HandleChangeFunc;
+  handleBlur?: HandleBlurFunc;
 }) {
   const block = blockInstance as CustomInstance;
   const { helperText, label, placeHolder, required } = block.attributes;
@@ -117,8 +117,8 @@ function FormComponent({
         onChange={(event) => setValue(event.target.value)}
         onBlur={(event) => {
           console.log(event.target.value, "blurred");
-          if (!handleChange) return;
-          handleChange(block.id, event.target.value);
+          if (!handleBlur) return;
+          handleBlur(block.id, event.target.value);
         }}
         className="h-10"
         placeholder={placeHolder}

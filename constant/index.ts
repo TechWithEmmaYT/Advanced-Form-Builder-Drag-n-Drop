@@ -1,3 +1,6 @@
+export const defaultPrimaryColor = "#673ab7";
+export const defaultBackgroundColor = "#f0ebf8";
+
 export const fontWeightClass = {
   normal: "font-normal",
   bold: "font-bold",

@@ -150,7 +150,9 @@ const BuilderCanvas = () => {
             `w-full relative bg-transparent  px-2 rounded-md
           flex flex-col min-h-svh items-center justify-start pt-1 pb-14 rounded-b-md
           `,
-            droppable.isOver && blocks.length >= 1 && "ring-4 ring-inset"
+            droppable.isOver &&
+              blocks.length >= 1 &&
+              "ring-4 ring-primary/20 ring-inset"
           )}
         >
           <div

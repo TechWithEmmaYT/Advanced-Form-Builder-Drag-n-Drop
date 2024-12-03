@@ -1,6 +1,7 @@
 "use server";
 
 import { FormWithSettings } from "@/@types/form.type";
+import { defaultBackgroundColor, defaultPrimaryColor } from "@/constant";
 import { generateUniqueId } from "@/lib/helper";
 import { prisma } from "@/lib/prismadb";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -101,8 +102,8 @@ export async function createForm(data: { name: string; description: string }) {
 
     const formSettings = await prisma.formSettings.create({
       data: {
-        primaryColor: "#2d31fa",
-        backgroundColor: "#E3EDFD",
+        primaryColor: defaultPrimaryColor,
+        backgroundColor: defaultBackgroundColor,
         fontFamily: "DM Sans",
       },
     });

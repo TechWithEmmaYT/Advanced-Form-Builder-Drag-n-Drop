@@ -157,10 +157,7 @@ function CanvasComponent({
       >
         <CardContent className="px-2 pb-2">
           {isSelected && !blockInstance.isLocked && (
-            <div
-              className="w-[5px] absolute left-0 top-0 rounded-l-md  h-full"
-              style={{ backgroundColor: "#2d31fa" }}
-            />
+            <div className="w-[5px] absolute left-0 top-0 rounded-l-md  h-full bg-primary" />
           )}
 
           {!blockInstance.isLocked && (
@@ -323,10 +320,5 @@ function PlaceHolder() {
 }
 
 function Border() {
-  return (
-    <div
-      className="w-full rounded-t-md h-[8px]"
-      style={{ backgroundColor: "#2d31fa" }}
-    />
-  );
+  return <div className="w-full rounded-t-md h-[8px] bg-primary" />;
 }

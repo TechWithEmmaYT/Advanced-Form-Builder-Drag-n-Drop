@@ -16,7 +16,7 @@ const StatsCard = (props: {
   const { loading, data } = props;
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-      <Card>
+      <Card className="bg-white">
         <CardHeader className="pb-2">
           <CardDescription>Total Forms</CardDescription>
           <CardTitle className="text-4xl">
@@ -33,7 +33,7 @@ const StatsCard = (props: {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-white">
         <CardHeader className="pb-2">
           <CardDescription>Total Responses</CardDescription>
           <CardTitle className="text-4xl">
@@ -50,7 +50,7 @@ const StatsCard = (props: {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-white">
         <CardHeader className="pb-2">
           <CardDescription>Conversion Rate</CardDescription>
           <CardTitle className="text-4xl">
@@ -67,7 +67,7 @@ const StatsCard = (props: {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-white">
         <CardHeader className="pb-2">
           <CardDescription>Engagement Rate</CardDescription>
           <CardTitle className="text-4xl">

@@ -20,7 +20,7 @@ const BuilderBlockProperties = () => {
          h-screen pb-36 mt-0 scrollbar overflow-auto"
         >
           <div className="flex flex-col w-full items-center h-auto min-h-full">
-            <div className="w-full flex flex-row items-center bg-white pb-2 pt-3  sticky border-b top-0  gap-2 px-2">
+            <div className="w-full flex flex-row items-center bg-white pb-2 pt-3  sticky border-b border-gray-300 top-0  gap-2 px-2">
               <PreviewDialog />
               <SaveFormBtn />
               <PublishFormBtn />
