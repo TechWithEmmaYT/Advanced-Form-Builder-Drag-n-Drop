@@ -64,15 +64,6 @@ export const TextFieldBlock: FormBlock = {
   canvasComponent: TextFieldCanvasComponent,
   formComponent: TextFieldFormComponent,
   propertiesComponent: TextFieldPropertiesComponent,
-  // validation: (block: FormBlockInstance, value: string) => {
-  //   const _block = block as NewInstance;
-  //   const { required } = _block.attributes;
-  //   if (required && (!value || value.trim().length === 0)) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // },
 };
 
 type NewInstance = FormBlockInstance & {

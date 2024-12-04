@@ -7,10 +7,10 @@ const BlockBtnDragOverlay = ({ formBlock }: { formBlock: FormBlock }) => {
   return (
     <Button
       variant="secondary"
-      className="flex flex-col !bg-white ring-2 ring-primary/80 gap-2 h-20 w-20  cursor-grab"
+      className="flex flex-col !bg-white text-gray-600 ring-2 ring-primary/80 gap-2 h-20 w-20  cursor-grab"
     >
-      <Icon className="!w-10 !h-10 text-gray-400" />
-      <span className="text-xs -mt-1 font-semibold text-gray-600">{label}</span>
+      <Icon className="!w-8 !h-8 " />
+      <span className="text-xs -mt-1  text-gray-600">{label}</span>
     </Button>
   );
 };

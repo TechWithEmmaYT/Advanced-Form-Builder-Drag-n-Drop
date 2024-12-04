@@ -106,11 +106,9 @@ const AIAssistanceBtn = () => {
               border-b border-gray-200"
               >
                 <div className="block mx-4 !ml-0">
-                  <nav className="-mb-px flex space-x-6">
-                    <a className="inline-flex items-center px-1 border-b-2 !font-medium !text-primary !text-xs pb-2">
-                      <span className="whitespace-nowrap">
-                        Ask to generate form or questions
-                      </span>
+                  <nav className="flex space-x-6 -mb-px">
+                    <a className="inline-flex items-center px-1 pb-2 text-xs font-medium text-primary border-b-2">
+                      Ask to generate form or questions
                     </a>
                   </nav>
                 </div>

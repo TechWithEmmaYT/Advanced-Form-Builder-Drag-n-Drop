@@ -29,7 +29,7 @@ const FormBlockBox = () => {
       <div className="flex gap-2 py-4 text-sm">
         <Input
           placeholder="Search Blocks"
-          className="bg-gray-50 placeholder:text-gray-400 border"
+          className=" placeholder:text-gray-400 shadow-sm"
           value={search}
           disabled={isPublished}
           onChange={(e) => setSearch(e.target.value)}

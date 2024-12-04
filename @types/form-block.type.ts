@@ -2,6 +2,7 @@ import { HeadingBlock } from "@/components/blocks/HeadingBlock";
 import { RowLayoutBlock } from "@/components/blocks/layouts/RowLayout";
 import { ParagraphBlock } from "@/components/blocks/ParagraphBlock";
 import { RadioSelectBlock } from "@/components/blocks/RadioSelectBlock";
+import { StarRatingBlock } from "@/components/blocks/StarRatingBlock";
 import { TextAreaBlock } from "@/components/blocks/TextAreaBlock";
 import { TextFieldBlock } from "@/components/blocks/TextField";
 
@@ -11,7 +12,8 @@ export type FormBlockType =
   | "Paragraph"
   | "TextArea"
   | "RadioSelect"
-  | "TextField";
+  | "TextField"
+  | "StarRating";
 export type FormCategoryType = "Layout" | "Form";
 
 export type HandleBlurFunc = (key: string, value: string) => void;
@@ -66,4 +68,5 @@ export const FormBlocks: FormBlocksType = {
   TextArea: TextAreaBlock,
   RadioSelect: RadioSelectBlock,
   TextField: TextFieldBlock,
+  StarRating: StarRatingBlock,
 };

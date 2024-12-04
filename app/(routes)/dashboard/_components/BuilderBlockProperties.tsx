@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "lucide-react";
+import { Layout, MousePointerClickIcon } from "lucide-react";
 import { useBuilder } from "@/context/builder-provider";
 import { FormBlocks } from "@/@types/form-block.type";
 import PreviewDialog from "./_common/PreviewDialog";
@@ -26,9 +26,9 @@ const BuilderBlockProperties = () => {
               <PublishFormBtn />
             </div>
             {!selectedBlockLayout ? (
-              <div className="text-muted-foreground  w-full flex flex-col items-center justify-center flex-1 h-auto">
-                <Layout />
-                <p>Layout not selected</p>
+              <div className="text-gray-400 gap-1 text-center text-[15px]  w-full flex flex-col items-center justify-center flex-1 h-auto">
+                <MousePointerClickIcon size="3rem" />
+                <p>Click the Layout to modify block</p>
               </div>
             ) : (
               <div className="w-full pt-1">
