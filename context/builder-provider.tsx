@@ -11,7 +11,9 @@ type BulderContextType = {
   loading: boolean;
   formData: FormWithSettings | null;
   setFormData: React.Dispatch<React.SetStateAction<FormWithSettings | null>>;
+
   blocks: FormBlockInstance[];
+  setBlocks: React.Dispatch<React.SetStateAction<FormBlockInstance[]>>;
   addBlock: (block: FormBlockInstance) => void;
   updateBlockLayout: (id: string, childrenBlocks: FormBlockInstance[]) => void;
 
@@ -216,6 +218,7 @@ export default function BuilderContextProvider({
         formData,
         setFormData,
         blocks,
+        setBlocks,
         addBlock,
         updateBlockLayout,
         removeBlockLayout,

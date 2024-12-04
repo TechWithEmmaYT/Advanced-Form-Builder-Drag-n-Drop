@@ -37,7 +37,7 @@ const AllReponds: FC<Props> = ({ blocks, responses }) => {
           <Card key={response.id} className=" bg-white p-3 mb-2 w-full">
             <CardContent className="pb-0 px-1">
               <div className="space-y-2">
-                <div className="mb-2 flex items-center gap-2">
+                <div className="pb-2 flex items-center gap-2 border-b border-gray-200">
                   <h4 className="font-semibold">Question/Answer</h4>
                   <span className="text-xs text-muted-foreground flex items-center">
                     <Clock className="w-3 h-3" />
@@ -47,10 +47,12 @@ const AllReponds: FC<Props> = ({ blocks, responses }) => {
                 {Object.entries(parsedResponses).map(([key, value]) => {
                   return (
                     <div key={key} className="flex-col">
-                      <div className="font-medium text-base mb-[2px] text-primary">
+                      <div className="font-medium text-base mb-[2px] text-gray-800">
                         {childblockMap[key] || "Unknown Field"}
                       </div>
-                      <div className="text-sm pl-1">- {value}</div>
+                      <div className="text-sm pl-1 text-gray-600">
+                        - {value}
+                      </div>
                     </div>
                   );
                 })}

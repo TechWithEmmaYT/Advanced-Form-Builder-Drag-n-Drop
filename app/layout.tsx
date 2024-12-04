@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import BuilderContextProvider from "@/context/builder-provider";
 
 const dm_sans = DM_Sans({ subsets: ["latin"] });
 
@@ -18,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-white ${dm_sans.className} antialiased`}>
+      <body className={`bg-white ${dm_sans.className}`}>
         {children}
         <Toaster />
       </body>

@@ -27,14 +27,14 @@ const BlockBtnElement = ({
       ref={draggable.setNodeRef}
       className={cn(
         `flex flex-col gap-2 
-    h-20 w-20  cursor-grab border !bg-white  hover:!bg-white hover:ring-1 hover:!ring-primary`,
+    h-[75px] w-20  cursor-grab border !bg-white  hover:!bg-white hover:ring-1 hover:!ring-primary`,
         draggable.isDragging && "ring-2 ring-primary shadow-xl",
         disabled && "!cursor-default !pointer-events-none"
       )}
       {...draggable.listeners}
       {...draggable.attributes}
     >
-      <Icon className="!w-10 !h-10 !stroke-[0.9] text-gray-600 !cursor-grab" />
+      <Icon className="!w-8 !h-8 !stroke-[0.9] text-gray-600 !cursor-grab" />
       <span className="text-[11.4px] -mt-1 font-semibold text-gray-600">
         {label}
       </span>

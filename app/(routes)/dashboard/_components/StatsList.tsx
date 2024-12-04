@@ -57,7 +57,7 @@ const StatsCard = (props: {
             {loading ? (
               <Skeleton className="h-[36px]" />
             ) : (
-              <>{data?.conversionRate?.toFixed(2)}%</>
+              <>{data?.conversionRate?.toFixed(1)}%</>
             )}
           </CardTitle>
         </CardHeader>
@@ -74,7 +74,7 @@ const StatsCard = (props: {
             {loading ? (
               <Skeleton className="h-[36px]" />
             ) : (
-              <>{data?.engagementRate?.toFixed(2)}%</>
+              <>{data?.engagementRate?.toFixed(1)}%</>
             )}
           </CardTitle>
         </CardHeader>

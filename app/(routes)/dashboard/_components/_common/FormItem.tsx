@@ -56,7 +56,7 @@ const FormItem = (props: {
       </div>
       <div className="w-full py-0">
         <div className="flex w-full items-center justify-between py-1">
-          <span className="text-[15px] flex items-center gap-1 font-medium">
+          <span className="text-sm flex items-center gap-1 font-medium">
             {published ? (
               <Globe className="text-muted-foreground size-3" />
             ) : (

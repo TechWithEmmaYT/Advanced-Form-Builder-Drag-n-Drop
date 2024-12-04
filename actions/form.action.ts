@@ -402,7 +402,11 @@ export async function fetchAllResponseByFormId(formId: string) {
     const form = await prisma.form.findUnique({
       where: { formId },
       include: {
-        formResponses: true,
+        formResponses: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 

@@ -4,6 +4,7 @@ import { FormBlocks } from "@/@types/form-block.type";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useBuilder } from "@/context/builder-provider";
+import AIAssistanceBtn from "./AIAssistanceBtn";
 
 const FormBlockBox = () => {
   const { formData } = useBuilder();
@@ -25,7 +26,7 @@ const FormBlockBox = () => {
 
   return (
     <div className="w-full">
-      <div className="py-4 text-sm">
+      <div className="flex gap-2 py-4 text-sm">
         <Input
           placeholder="Search Blocks"
           className="bg-gray-50 placeholder:text-gray-400 border"
@@ -33,6 +34,7 @@ const FormBlockBox = () => {
           disabled={isPublished}
           onChange={(e) => setSearch(e.target.value)}
         />
+        <AIAssistanceBtn />
       </div>
       <div className="flex flex-col space-y-3 w-full">
         {layoutBlocks?.length > 0 && (
