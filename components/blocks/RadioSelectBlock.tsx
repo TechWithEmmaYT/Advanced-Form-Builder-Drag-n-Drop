@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { ChevronDown, LetterTextIcon, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleIcon } from "lucide-react";
 import {

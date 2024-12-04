@@ -27,7 +27,7 @@ const FormSubmitComponent = (props: {
       block!.childblocks.forEach((childblock) => {
         const required = childblock.attributes?.required;
         //const label = childblock.attributes?.label;
-        const blockValue = formVals.current[childblock.id]?.trim(); // Access the value of the childblock
+        const blockValue = formVals.current?.[childblock.id]?.trim();
 
         // Check if field is required and empty
         if (required && (!blockValue || blockValue.trim() === "")) {
@@ -43,7 +43,7 @@ const FormSubmitComponent = (props: {
   const handleBlur = (key: string, value: string) => {
     formVals.current[key] = value;
 
-    if (formErrors[key] && value.trim() !== "") {
+    if (formErrors[key] && value?.trim() !== "") {
       setFormErrors((prevErrors) => {
         const updatedErrors = { ...prevErrors };
         delete updatedErrors[key]; // Remove the key from errors
