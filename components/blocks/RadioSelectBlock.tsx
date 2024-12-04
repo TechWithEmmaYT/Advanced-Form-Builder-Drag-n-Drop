@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { ChevronDown, LetterTextIcon, X } from "lucide-react";
@@ -17,6 +17,7 @@ import {
   FormBlockInstance,
   FormBlockType,
   FormCategoryType,
+  HandleBlurFunc,
 } from "@/@types/form-block.type";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -59,21 +60,30 @@ export const RadioSelectBlock: FormBlock = {
     icon: CircleIcon,
     label: "Radio",
   },
-  canvasComponent: CanvasComponent, // Renders the heading block on the canvas
-  formComponent: FormComponent, // Customize as needed
-  propertiesComponent: RadioPropertiesComponent, // Properties editor
+  canvasComponent: RadioSelectCanvasComponent, // Renders the heading block on the canvas
+  formComponent: RadioSelectFormComponent, // Customize as needed
+  propertiesComponent: RadioSelectPropertiesComponent, // Properties editor
+  // validation: (block: FormBlockInstance, value: string) => {
+  //   const _block = block as NewInstance;
+  //   const { required } = _block.attributes;
+  //   if (required && (!value || value.trim().length === 0)) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // },
 };
 
-type CustomInstance = FormBlockInstance & {
+type NewInstance = FormBlockInstance & {
   attributes: attributesType;
 };
 
-function CanvasComponent({
+function RadioSelectCanvasComponent({
   blockInstance,
 }: {
   blockInstance: FormBlockInstance;
 }) {
-  const block = blockInstance as CustomInstance;
+  const block = blockInstance as NewInstance;
   const { label, options, required } = block.attributes;
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -98,20 +108,53 @@ function CanvasComponent({
   );
 }
 
-function FormComponent({
+function RadioSelectFormComponent({
   blockInstance,
+  handleBlur,
+  isError: isSubmitError,
+  errorMessage,
 }: {
   blockInstance: FormBlockInstance;
+  handleBlur?: HandleBlurFunc;
+  isError?: boolean;
+  errorMessage?: string;
 }) {
-  const block = blockInstance as CustomInstance;
+  const block = blockInstance as NewInstance;
   const { label, options, required } = block.attributes;
+
+  const [value, setValue] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  const validateField = (val: string) => {
+    if (required) {
+      return val.trim().length > 0; // Validation: Required fields must not be empty.
+    }
+    return true; // If not required, always valid.
+  };
+
   return (
     <div className="flex flex-col gap-3 w-full">
-      <Label className="text-base !font-normal mb-2">
+      <Label
+        className={`text-base !font-normal mb-2 ${
+          isError || isSubmitError ? "text-red-500" : ""
+        }`}
+      >
         {label}
         {required && <span className="text-red-500">*</span>}
       </Label>
-      <RadioGroup className="space-y-3 ">
+      <RadioGroup
+        value={value}
+        onValueChange={(value) => {
+          setValue(value);
+          const isValid = validateField(value);
+          setIsError(!isValid); // Set error state based on validation.
+          if (handleBlur) {
+            handleBlur(block.id, value);
+          }
+        }}
+        onBlur={(event) => {}}
+        className={`space-y-3`}
+      >
         {options.map((option: string, index: number) => {
           const uniqueId = `option-${generateSixUniqueNo()}`;
           return (
@@ -119,7 +162,9 @@ function FormComponent({
               <RadioGroupItem
                 value={option}
                 id={uniqueId}
-                className="!cursor-pointer"
+                className={`!cursor-pointer ${
+                  isError || isSubmitError ? "!border-red-500" : ""
+                }`}
               />
               <Label htmlFor={uniqueId} className="font-normal !cursor-pointer">
                 {option}
@@ -128,11 +173,23 @@ function FormComponent({
           );
         })}
       </RadioGroup>
+
+      {isError ? (
+        <p className="text-red-500 text-[0.8rem]">
+          {required && value.trim().length === 0
+            ? `This field is required.`
+            : ""}
+        </p>
+      ) : (
+        errorMessage && (
+          <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
+        )
+      )}
     </div>
   );
 }
 
-function RadioPropertiesComponent({
+function RadioSelectPropertiesComponent({
   positionIndex,
   parentId,
   blockInstance,
@@ -141,7 +198,7 @@ function RadioPropertiesComponent({
   parentId?: string;
   blockInstance: FormBlockInstance;
 }) {
-  const block = blockInstance as CustomInstance; // Cast blockInstance to CustomInstance
+  const block = blockInstance as NewInstance; // Cast blockInstance to CustomInstance
   const { updateChildBlock } = useBuilder();
 
   // Define form schema and validation
@@ -178,7 +235,7 @@ function RadioPropertiesComponent({
   }
 
   return (
-    <div className="w-full border-b pb-4">
+    <div className="w-full pb-4">
       <div className="w-full flex flex-row items-center justify-between gap-1 bg-gray-100 h-auto p-1 px-2 mb-[10px]">
         <span className="text-sm font-medium text-gray-600 tracking-wider">
           Radio {positionIndex}

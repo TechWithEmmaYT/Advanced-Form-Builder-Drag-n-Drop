@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-white ${dm_sans.className} antialiased`}>
-        <BuilderContextProvider>{children}</BuilderContextProvider>
+        {children}
         <Toaster />
       </body>
     </html>

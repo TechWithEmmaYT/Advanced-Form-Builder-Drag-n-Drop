@@ -38,7 +38,7 @@ type attributesType = {
   rows: number;
 };
 
-type propertiesValidateSchemaType = z.infer<typeof propertiesValidateSchema>;
+type PropertiesValidateSchemaType = z.infer<typeof propertiesValidateSchema>;
 
 const propertiesValidateSchema = z.object({
   placeHolder: z.string().trim().optional(),
@@ -66,21 +66,30 @@ export const TextAreaBlock: FormBlock = {
     icon: LetterTextIcon, // Replace with your custom icon
     label: "Textarea",
   },
-  canvasComponent: CanvasComponent,
-  formComponent: FormComponent,
+  canvasComponent: TextAreaCanvasComponent,
+  formComponent: TextAreaFormComponent,
   propertiesComponent: TextAreaPropertiesComponent,
+  // validation: (block: FormBlockInstance, value: string) => {
+  //   const _block = block as NewInstance;
+  //   const { required } = _block.attributes;
+  //   if (required && (!value || value.trim().length === 0)) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // },
 };
 
-type CustomInstance = FormBlockInstance & {
+type NewInstance = FormBlockInstance & {
   attributes: attributesType;
 };
 
-function CanvasComponent({
+function TextAreaCanvasComponent({
   blockInstance,
 }: {
   blockInstance: FormBlockInstance;
 }) {
-  const block = blockInstance as CustomInstance;
+  const block = blockInstance as NewInstance;
   const { label, placeHolder, required, helperText, rows, cols } =
     block.attributes; // Destructure attributes
 
@@ -104,22 +113,37 @@ function CanvasComponent({
   );
 }
 
-function FormComponent({
+function TextAreaFormComponent({
   blockInstance,
   handleBlur,
+  isError: isSubmitError,
+  errorMessage,
 }: {
   blockInstance: FormBlockInstance;
   handleBlur?: HandleBlurFunc;
+  isError?: boolean;
+  errorMessage?: string;
 }) {
-  const [value, setValue] = useState("");
-
-  const block = blockInstance as CustomInstance;
+  const block = blockInstance as NewInstance;
   const { label, placeHolder, required, helperText, rows, cols } =
     block.attributes; // Destructure attributes
 
+  const [value, setValue] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  const validateField = (val: string) => {
+    if (required) {
+      return val.trim().length > 0; // Validation: Required fields must not be empty.
+    }
+    return true; // If not required, always valid.
+  };
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label className="text-base !font-normal mb-2">
+      <Label
+        className={`text-base !font-normal mb-2 ${
+          isError || isSubmitError ? "text-red-500" : ""
+        }`}
+      >
         {label}
         {required && <span className="text-red-500">*</span>}
       </Label>
@@ -127,19 +151,34 @@ function FormComponent({
         placeholder={placeHolder}
         rows={rows || 3} // Default row value if not provided
         cols={cols || 50} // Default column value if not provided
-        className="resize-none !min-h-[50px]"
+        className={`resize-none !min-h-[50px] ${
+          isError || isSubmitError ? "!border-red-500" : ""
+        }`}
         value={value}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
+        onChange={(event) => setValue(event.target.value)}
         onBlur={(event) => {
-          console.log(event.target.value, "blurred");
-          if (!handleBlur) return;
-          handleBlur(block.id, event.target.value);
+          const inputValue = event.target.value;
+          const isValid = validateField(inputValue);
+          setIsError(!isValid); // Set error state based on validation.
+          if (handleBlur) {
+            handleBlur(block.id, inputValue);
+          }
         }}
       />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+      )}
+
+      {isError ? (
+        <p className="text-red-500 text-[0.8rem]">
+          {required && value.trim().length === 0
+            ? `This field is required.`
+            : ""}
+        </p>
+      ) : (
+        errorMessage && (
+          <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
+        )
       )}
     </div>
   );
@@ -154,11 +193,11 @@ function TextAreaPropertiesComponent({
   parentId?: string;
   blockInstance: FormBlockInstance;
 }) {
-  const block = blockInstance as CustomInstance;
+  const block = blockInstance as NewInstance;
   const { updateChildBlock } = useBuilder();
 
   // Use the form hook to manage the form state and validation
-  const form = useForm<propertiesValidateSchemaType>({
+  const form = useForm<PropertiesValidateSchemaType>({
     resolver: zodResolver(propertiesValidateSchema),
     defaultValues: {
       label: block.attributes.label,
@@ -180,7 +219,7 @@ function TextAreaPropertiesComponent({
     });
   }, [block.attributes, form]);
 
-  function setChanges(values: propertiesValidateSchemaType) {
+  function setChanges(values: PropertiesValidateSchemaType) {
     if (!parentId) return null;
     updateChildBlock(parentId, block.id, {
       ...block,
@@ -192,7 +231,7 @@ function TextAreaPropertiesComponent({
   }
 
   return (
-    <div className="w-full border-b pb-4">
+    <div className="w-full  pb-4">
       <div className="w-full flex flex-row items-center justify-between gap-1 bg-gray-100 h-auto p-1 px-2 mb-[10px]">
         <span className="text-sm font-medium text-gray-600 tracking-wider">
           Textarea {positionIndex}

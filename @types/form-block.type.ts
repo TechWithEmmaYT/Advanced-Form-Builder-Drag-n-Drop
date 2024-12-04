@@ -16,6 +16,10 @@ export type FormCategoryType = "Layout" | "Form";
 
 export type HandleBlurFunc = (key: string, value: string) => void;
 
+export type FormErrorsType = {
+  [key: string]: string;
+};
+
 export type FormBlock = {
   blockType: FormBlockType;
   blockCategory: FormCategoryType;
@@ -33,6 +37,9 @@ export type FormBlock = {
   formComponent: React.FC<{
     blockInstance: FormBlockInstance;
     handleBlur?: HandleBlurFunc;
+    isError?: boolean;
+    errorMessage?: string;
+    formErrors?: FormErrorsType;
   }>;
   propertiesComponent: React.FC<{
     positionIndex?: number;

@@ -14,7 +14,7 @@ import { FormBlocks } from "@/@types/form-block.type";
 import { defaultBackgroundColor } from "@/constant";
 
 const PreviewDialog = () => {
-  const { blocks, formData } = useBuilder();
+  const { blocks } = useBuilder();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -37,8 +37,7 @@ const PreviewDialog = () => {
      scrollbar transition-all duration-300
         "
           style={{
-            backgroundColor:
-              formData?.settings?.backgroundColor || defaultBackgroundColor,
+            backgroundColor: defaultBackgroundColor,
           }}
         >
           <div className="w-full h-full max-w-[650px] mx-auto">

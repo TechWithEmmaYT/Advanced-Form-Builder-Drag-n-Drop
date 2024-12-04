@@ -27,7 +27,7 @@ const BlockBtnElement = ({
       ref={draggable.setNodeRef}
       className={cn(
         `flex flex-col gap-2 
-    h-20 w-20  cursor-grab !bg-primary/5 border hover:!bg-white hover:ring-1 hover:!ring-primary`,
+    h-20 w-20  cursor-grab border !bg-white  hover:!bg-white hover:ring-1 hover:!ring-primary`,
         draggable.isDragging && "ring-2 ring-primary shadow-xl",
         disabled && "!cursor-default !pointer-events-none"
       )}

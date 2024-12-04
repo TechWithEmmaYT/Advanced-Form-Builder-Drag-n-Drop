@@ -1,0 +1,66 @@
+import React, { FC } from "react";
+import { Clock } from "lucide-react";
+
+import { FormBlockInstance } from "@/@types/form-block.type";
+import { Card, CardContent } from "@/components/ui/card";
+
+type Props = {
+  blocks: FormBlockInstance[];
+  responses: {
+    formId: number;
+    id: number;
+    createdAt: Date;
+    jsonReponse: string;
+  }[];
+};
+const AllReponds: FC<Props> = ({ blocks, responses }) => {
+  const childblockMap = blocks
+    .flatMap((block) => block.childblocks || []) // Default to an empty array if `childblocks` is undefined
+    .reduce((acc, childblock) => {
+      if (childblock) {
+        // Add a type guard to ensure `childblock` is defined
+        acc[childblock.id] = childblock?.attributes?.label || "No Label";
+      }
+      return acc;
+    }, {} as Record<string, string>);
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-3">
+      {responses.map((response) => {
+        // Parse the jsonResponse field
+        const parsedResponses = JSON.parse(response.jsonReponse) as {
+          id: string;
+          responseValue: string;
+        };
+
+        return (
+          <Card key={response.id} className=" bg-white p-3 mb-2 w-full">
+            <CardContent className="pb-0 px-1">
+              <div className="space-y-2">
+                <div className="mb-2 flex items-center gap-2">
+                  <h4 className="font-semibold">Question/Answer</h4>
+                  <span className="text-xs text-muted-foreground flex items-center">
+                    <Clock className="w-3 h-3" />
+                    {new Date(response.createdAt).toLocaleString()}
+                  </span>
+                </div>
+                {Object.entries(parsedResponses).map(([key, value]) => {
+                  return (
+                    <div key={key} className="flex-col">
+                      <div className="font-medium text-base mb-[2px] text-primary">
+                        {childblockMap[key] || "Unknown Field"}
+                      </div>
+                      <div className="text-sm pl-1">- {value}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  );
+};
+
+export default AllReponds;

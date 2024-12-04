@@ -130,7 +130,7 @@ function ParagraphPropertiesComponent({
   };
 
   return (
-    <div className="w-full border-b pb-4">
+    <div className="w-full  pb-4">
       <div className="w-full flex flex-row items-center justify-between gap-1 bg-gray-100 h-auto p-1 px-2 mb-[10px]">
         <span className="text-sm font-medium text-gray-600 tracking-wider">
           Paragraph {positionIndex}

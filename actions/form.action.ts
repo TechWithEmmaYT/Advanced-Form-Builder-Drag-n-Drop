@@ -5,7 +5,6 @@ import { defaultBackgroundColor, defaultPrimaryColor } from "@/constant";
 import { generateUniqueId } from "@/lib/helper";
 import { prisma } from "@/lib/prismadb";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Form, FormSettings } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function fetchFormStats() {
@@ -104,7 +103,6 @@ export async function createForm(data: { name: string; description: string }) {
       data: {
         primaryColor: defaultPrimaryColor,
         backgroundColor: defaultBackgroundColor,
-        fontFamily: "DM Sans",
       },
     });
     const form = await prisma.form.create({
@@ -261,7 +259,7 @@ export async function UpdateForm(data: {
     return {
       success: true,
       message: "Form updated successfully",
-      data: form,
+      form,
     };
   } catch (error) {
     return {
@@ -273,6 +271,16 @@ export async function UpdateForm(data: {
 
 export async function UpdatePublish(formId: string, published: boolean) {
   try {
+    const session = getKindeServerSession();
+    const user = await session.getUser();
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Unauthorized to use this resource",
+      };
+    }
+
     if (!formId) {
       return {
         success: false,
@@ -328,6 +336,75 @@ export async function fetchPublishFormById(formId: string): Promise<{
         message: "Form not found",
       };
     }
+
+    return {
+      success: true,
+      message: "Form fetched successfully",
+      form,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
+  }
+}
+
+export async function submitResponse(formId: string, response: string) {
+  try {
+    if (!formId) {
+      return {
+        success: false,
+        message: "FormId is required",
+      };
+    }
+    await prisma.form.update({
+      where: {
+        formId: formId,
+        published: true,
+      },
+      data: {
+        formResponses: {
+          create: {
+            jsonReponse: response,
+          },
+        },
+        responses: {
+          increment: 1,
+        },
+      },
+    });
+
+    return {
+      success: true,
+      message: "Response submitted",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
+  }
+}
+
+export async function fetchAllResponseByFormId(formId: string) {
+  try {
+    const session = getKindeServerSession();
+    const user = await session.getUser();
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Unauthorized to use this resource",
+      };
+    }
+
+    const form = await prisma.form.findUnique({
+      where: { formId },
+      include: {
+        formResponses: true,
+      },
+    });
 
     return {
       success: true,

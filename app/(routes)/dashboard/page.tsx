@@ -5,6 +5,7 @@ import { fetchAllForms, fetchFormStats } from "@/actions/form.action";
 import StatsList from "./_components/StatsList";
 import CreateForm from "./_components/CreateForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Loader } from "lucide-react";
 
 const Dashboard = () => {
   return (
@@ -27,11 +28,7 @@ const Dashboard = () => {
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
             <Suspense
               fallback={[1, 2, 3, 4].map((item) => (
-                <>
-                  <Skeleton className="h-[150px] rounded-t-xl" />
-                  <Skeleton className="h-4" />
-                  <Skeleton className="h-4" />
-                </>
+                <Loader size="3rem" className="animate-spin" />
               ))}
             >
               <FormList />

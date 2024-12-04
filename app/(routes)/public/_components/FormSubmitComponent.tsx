@@ -1,25 +1,91 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FormBlockInstance, FormBlocks } from "@/@types/form-block.type";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
+import { toast } from "@/hooks/use-toast";
+import { Loader } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { submitResponse } from "@/actions/form.action";
 
 const FormSubmitComponent = (props: {
   formId: string;
   blocks: FormBlockInstance[];
 }) => {
-  const { blocks } = props;
-
+  const { formId, blocks } = props;
   const formVals = useRef<{ [key: string]: string }>({});
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSubmitted, setSubmitted] = useState<boolean>(false);
+
+  // Validate all fields
+  const validateFields = () => {
+    const errors: { [key: string]: string } = {};
+    blocks.forEach((block) => {
+      // Iterate through each childblock in the block
+      if (!block.childblocks) return;
+      block!.childblocks.forEach((childblock) => {
+        const required = childblock.attributes?.required;
+        //const label = childblock.attributes?.label;
+        const blockValue = formVals.current[childblock.id]?.trim(); // Access the value of the childblock
+
+        // Check if field is required and empty
+        if (required && (!blockValue || blockValue.trim() === "")) {
+          errors[childblock.id] = `This field is required.`; // Set error message for childblock
+        }
+      });
+    });
+
+    setFormErrors(errors); // Update state with errors
+    return Object.keys(errors).length === 0; // Return true if no errors
+  };
 
   const handleBlur = (key: string, value: string) => {
-    console.log(key, value, "handle");
     formVals.current[key] = value;
+
+    if (formErrors[key] && value.trim() !== "") {
+      setFormErrors((prevErrors) => {
+        const updatedErrors = { ...prevErrors };
+        delete updatedErrors[key]; // Remove the key from errors
+        return updatedErrors;
+      });
+    }
   };
 
-  const handleSubmit = () => {
-    console.log("onSubmitForm", formVals.current);
+  const handleSubmit = async () => {
+    if (!validateFields()) {
+      toast({
+        title: "Validation Error",
+        description: "Must fill in required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const reponseJson = JSON.stringify(formVals.current);
+      const response = await submitResponse(formId, reponseJson);
+      if (response.success) {
+        setSubmitted(true);
+      } else {
+        toast({
+          title: "Error",
+          description: response.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   return (
     <div className="scrollbar w-full h-full overflow-y-auto pt-3  transition-all duration-300">
       <div className="w-full h-full max-w-[650px] mx-auto">
@@ -33,25 +99,52 @@ const FormSubmitComponent = (props: {
           rounded-md px-1"
           />
           <div className="w-full h-auto">
-            {blocks.length > 0 && (
-              <div className="flex flex-col w-full gap-4">
-                {blocks.map((block) => {
-                  const FormBlockComponent =
-                    FormBlocks[block.blockType].formComponent;
-                  return (
-                    <FormBlockComponent
-                      key={`public-${block.id}`}
-                      blockInstance={block}
-                      handleBlur={handleBlur}
-                    />
-                  );
-                })}
-                <div className="w-full">
-                  <Button className="!bg-primary" onClick={handleSubmit}>
-                    Submit
-                  </Button>
+            {isSubmitted ? (
+              <Card className="w-full bg-white border shadow-sm min-h-[120px] rounded-md !p-0">
+                <CardContent className="px-2 pb-2">
+                  <div className="py-4 px-3">
+                    <h1 className="text-4xl font-normal">Thank You</h1>
+                    <p className="mt-2 mb-8 text-base">
+                      Got it, We'll notify you with a feedback
+                    </p>
+                    <a
+                      href="#"
+                      className="outline-none underline text-sm  text-blue-700"
+                    >
+                      Learn more for more information
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              blocks.length > 0 && (
+                <div className="flex flex-col w-full gap-4">
+                  {blocks.map((block) => {
+                    const FormBlockComponent =
+                      FormBlocks[block.blockType].formComponent;
+                    return (
+                      <FormBlockComponent
+                        key={`public-${block.id}`}
+                        blockInstance={block}
+                        handleBlur={handleBlur}
+                        formErrors={formErrors}
+                        // isError={!!formErrors[block.id]} // Check if there's an error
+                        // errorMessage={formErrors[block.id]} // Pass error message
+                      />
+                    );
+                  })}
+                  <div className="w-full">
+                    <Button
+                      className="!bg-primary"
+                      disabled={isLoading}
+                      onClick={handleSubmit}
+                    >
+                      {isLoading && <Loader className="w-4 h-4 animate-spin" />}
+                      Submit
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )
             )}
           </div>
 

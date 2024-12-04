@@ -1,7 +1,7 @@
 import React from "react";
 
 const FormSettings = () => {
-  return <div>FormSettings</div>;
+  return <div className="p-7">FormSettings</div>;
 };
 
 export default FormSettings;

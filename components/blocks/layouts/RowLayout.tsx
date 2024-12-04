@@ -6,6 +6,8 @@ import {
   FormBlocks,
   FormBlockType,
   FormCategoryType,
+  FormErrorsType,
+  HandleBlurFunc,
 } from "@/@types/form-block.type";
 import {
   Active,
@@ -42,12 +44,12 @@ export const RowLayoutBlock: FormBlock = {
     label: "Row Layout",
   },
 
-  canvasComponent: CanvasComponent,
-  formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
+  canvasComponent: RowLayoutCanvasComponent,
+  formComponent: RowLayoutFormComponent,
+  propertiesComponent: RowLayoutPropertiesComponent,
 };
 
-function CanvasComponent({
+function RowLayoutCanvasComponent({
   blockInstance,
 }: {
   blockInstance: FormBlockInstance;
@@ -247,10 +249,14 @@ function CanvasComponent({
   );
 }
 
-function FormComponent({
+function RowLayoutFormComponent({
   blockInstance,
+  handleBlur,
+  formErrors,
 }: {
   blockInstance: FormBlockInstance;
+  handleBlur?: HandleBlurFunc;
+  formErrors?: FormErrorsType;
 }) {
   const childrenBlocks = blockInstance.childblocks || [];
 
@@ -273,6 +279,9 @@ function FormComponent({
                   <ChildFormComponentWrapper
                     key={childblock.id}
                     block={childblock}
+                    handleBlur={handleBlur}
+                    isError={!!formErrors?.[childblock.id]} // Check if there's an error
+                    errorMessage={formErrors?.[childblock.id]} // Pass error message
                   />
                 </div>
               ))}
@@ -284,7 +293,7 @@ function FormComponent({
   );
 }
 
-function PropertiesComponent({
+function RowLayoutPropertiesComponent({
   blockInstance,
 }: {
   blockInstance: FormBlockInstance;
@@ -292,8 +301,8 @@ function PropertiesComponent({
   const childrenBlocks = blockInstance.childblocks || [];
 
   return (
-    <div className="pt-3 w-full">
-      <div className="flex w-full flex-col items-center justify-start  gap-4 py-2 px-0 ">
+    <div className="pt-0 w-full">
+      <div className="flex w-full flex-col items-center justify-start  gap-0 py-0 px-0 ">
         {childrenBlocks?.map((childblock, index) => (
           <div className="flex items-center justify-center gap-1 h-auto w-full">
             <ChildPropertiesComponentWrapper

@@ -49,7 +49,7 @@ const FormBlockBox = () => {
             </div>
           </div>
         )}
-        <Separator />
+        <Separator color="" className="!bg-gray-200" />
         {formBlocks?.length > 0 && (
           <div>
             <h5 className="text-[13px] text-gray-500 font-medium">Form</h5>

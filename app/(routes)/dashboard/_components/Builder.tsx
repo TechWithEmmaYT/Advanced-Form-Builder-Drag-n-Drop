@@ -4,13 +4,10 @@ import { BuilderSidebar } from "./BuilderSidebar";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import BuilderCanvas from "./BuilderCanvas";
 import BuilderBlockProperties from "./BuilderBlockProperties";
-import { useBuilder } from "@/context/builder-provider";
 import FloatingShareButton from "./_common/FloatingShareButton";
 import { defaultBackgroundColor } from "@/constant";
 
 const Builder = (props: { isSidebarOpen: boolean }) => {
-  const { formData } = useBuilder();
-
   return (
     <>
       <BuilderSidebar />
@@ -18,8 +15,7 @@ const Builder = (props: { isSidebarOpen: boolean }) => {
         <div
           className="w-full h-full"
           style={{
-            backgroundColor:
-              formData?.settings?.backgroundColor || defaultBackgroundColor,
+            backgroundColor: defaultBackgroundColor,
           }}
         >
           <SidebarTrigger className=" absolute top-0 z-50" />

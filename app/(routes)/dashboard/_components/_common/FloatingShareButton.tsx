@@ -11,7 +11,7 @@ const FloatingShareButton = (props: { isSidebarOpen: boolean }) => {
   const { formData } = useBuilder();
 
   const copyLinkToClipboard = () => {
-    const shareableLink = `${window.location.origin}/public/submit-form/${formData?.formId}`;
+    const shareableLink = `${process.env.NEXT_PUBLIC_APP_URL}/public/submit-form/${formData?.formId}`;
     navigator.clipboard
       .writeText(shareableLink)
       .then(() => {

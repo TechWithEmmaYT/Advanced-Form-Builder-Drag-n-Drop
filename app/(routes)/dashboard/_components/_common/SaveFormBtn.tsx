@@ -45,10 +45,10 @@ const SaveFormBtn = () => {
           description: response.message,
         });
 
-        if (response.data)
+        if (response.form)
           setFormData({
             ...formData,
-            ...response.data,
+            ...response.form,
           });
       } else {
         toast({

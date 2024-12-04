@@ -30,8 +30,8 @@ export function BuilderSidebar({
   const [tab, setTab] = useState<"blocks" | "settings">("blocks");
   return (
     <Sidebar className="border-r left-12 pt-16" {...rest}>
-      <SidebarHeader className="bg-[#fcfcfc]">
-        <header className="border-b w-full pt-1 pb-2 flex shrink-0 items-center gap-2">
+      <SidebarHeader className="bg-white px-0">
+        <header className="border-b border-gray-200 w-full pt-1 pb-2 flex shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
             <Home className="-ml-1 w-4 h-4" />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -54,7 +54,7 @@ export function BuilderSidebar({
           </div>
         </header>
       </SidebarHeader>
-      <SidebarContent className="pt-2 px-5 bg-[#fcfcfc]">
+      <SidebarContent className="pt-2 px-5 bg-white">
         <div className="w-full">
           <div className="w-full flex flex-row gap-1 h-[39px] rounded-full bg-gray-100 p-1">
             <button
