@@ -97,7 +97,7 @@ const AIAssistanceBtn = () => {
           forceMount
           align="start"
           side="right"
-          sideOffset={180}
+          //sideOffset={480}
         >
           <div className="flex flex-col  w-[390px] bg-white border-2 border-purple-200 rounded-lg px-5  pb-[14px] pt-[18px] shadow-xl">
             <div className="flex relative">
@@ -109,7 +109,7 @@ const AIAssistanceBtn = () => {
                   <nav className="-mb-px flex space-x-6">
                     <a className="inline-flex items-center px-1 border-b-2 !font-medium !text-primary !text-xs pb-2">
                       <span className="whitespace-nowrap">
-                        Ask to create form or questions
+                        Ask to generate form or questions
                       </span>
                     </a>
                   </nav>
