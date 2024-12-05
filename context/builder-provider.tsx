@@ -61,15 +61,24 @@ export default function BuilderContextProvider({
     useState<FormBlockInstance | null>(null);
 
   useEffect(() => {
-    console.log("Inside context useEffect", formId);
     const fetchData = async () => {
       try {
         setLoading(true);
         if (!formId) return;
-        const response = await fetchFormById(formId);
-        if (response?.success) {
-          if (!response.form) return;
-          const form = response.form;
+        const response = await fetch("/api/fetchFormById", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ formId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch form");
+        }
+        const { data } = await response.json();
+        const { form } = data;
+        if (form) {
           console.log(form, "form useeffect");
           setFormData(form);
           // Parse `blocks` from the form's `jsonBlocks`
@@ -81,12 +90,36 @@ export default function BuilderContextProvider({
       } catch (error) {
         console.error("Error fetching form:", error);
       } finally {
-        setLoading(false); // End loading
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [formId]);
+
+  // useEffect(() => {
+  //   console.log("inside useeffect", formId);
+  //   const fetchData = async () => {
+  //     if (!formId) return;
+
+  //     try {
+  //       setLoading(true);
+  //       const response = await fetchFormById(formId);
+  //       if (response?.success && response.form) {
+  //         const { form } = response;
+  //         console.log("Fetched form:", form);
+  //         setFormData(form);
+  //         form.jsonBlocks && setBlocks(JSON.parse(form.jsonBlocks));
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching form:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [formId]);
 
   const addBlock = (block: FormBlockInstance) => {
     setBlocks((prev) => {

@@ -201,8 +201,6 @@ export async function fetchFormById(formId: string): Promise<{
       },
     });
 
-    console.log(form, "form");
-
     if (!form) {
       return {
         success: false,
