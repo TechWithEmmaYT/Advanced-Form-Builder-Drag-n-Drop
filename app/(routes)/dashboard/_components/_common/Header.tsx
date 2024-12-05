@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { ChevronDown, LogInIcon } from "lucide-react";
+import {
+  useKindeBrowserClient,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs";
 import Logo from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -10,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useParams, usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const { user } = useKindeBrowserClient();
@@ -71,7 +75,7 @@ const Header = () => {
         </li>
       </nav>
 
-      <div className="flex items-center justify-end w-full">
+      <div className="flex items-center gap-1 justify-end w-full">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div role="button" className="flex items-start gap-2">
@@ -99,6 +103,11 @@ const Header = () => {
             </div>
           </DropdownMenuTrigger>
         </DropdownMenu>
+        <LogoutLink>
+          <Button size="icon">
+            <LogInIcon />
+          </Button>
+        </LogoutLink>
       </div>
     </header>
   );

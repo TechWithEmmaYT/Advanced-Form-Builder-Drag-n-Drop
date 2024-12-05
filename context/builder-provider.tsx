@@ -52,6 +52,8 @@ export default function BuilderContextProvider({
   const params = useParams();
   const formId = params.formId as string;
 
+  console.log("formId", formId);
+
   const [formData, setFormData] = useState<FormWithSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -61,6 +63,7 @@ export default function BuilderContextProvider({
     useState<FormBlockInstance | null>(null);
 
   useEffect(() => {
+    console.log("Inside context useEffect", formId);
     const fetchData = async () => {
       try {
         setLoading(true);

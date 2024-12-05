@@ -56,7 +56,12 @@ Analyze the user request and identify the action type:
      - \`text\`: (string) The text content of the paragraph.
      - \`fontSize\`: (string) Font size (e.g., "small", "medium").
      - \`fontWeight\`: (string) Font weight (e.g., "normal", "bold").
-
+7. **StarRating**
+   - Attributes:
+     - \`label\`: (string) Field label.
+     - \`helperText\`: (string) Helper text.
+     - \`required\`: (boolean) If the field is required.
+     - \`maxStars\`: (number) Default 5.
 ---
 
 ### Input Details:
@@ -110,6 +115,7 @@ ${userRequest}
 ---
 
 ### Important:
+- **Only include the form questions and fields in the final output.** Do not include title or description in the output, only the form question blocks (e.g., "TextField", "RadioSelect","TextArea").
 - Clearly identify whether the user is adding questions or creating a new form, and set the appropriate **actionType**.
 - Ensure proper encapsulation of all questions and fields in \`RowLayout\` blocks.
 - Generate only the form questions and fields in the final output.

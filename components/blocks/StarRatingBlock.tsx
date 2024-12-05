@@ -123,7 +123,7 @@ function StarRatingFormComponent({
   errorMessage?: string;
 }) {
   const block = blockInstance as any;
-  const { label, required, maxStars } = block.attributes;
+  const { label, required, maxStars, helperText } = block.attributes;
 
   const [rating, setRating] = useState(0);
   const [isError, setIsError] = useState(false);
@@ -185,6 +185,10 @@ function StarRatingFormComponent({
         errorMessage && (
           <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
         )
+      )}
+
+      {helperText && (
+        <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}
     </div>
   );
