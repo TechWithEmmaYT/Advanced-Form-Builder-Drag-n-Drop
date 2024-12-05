@@ -52,8 +52,6 @@ export default function BuilderContextProvider({
   const params = useParams();
   const formId = params.formId as string;
 
-  console.log("formId", formId);
-
   const [formData, setFormData] = useState<FormWithSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,10 +66,11 @@ export default function BuilderContextProvider({
       try {
         setLoading(true);
         if (!formId) return;
-        const { form } = await fetchFormById(formId);
-        if (form) {
+        const response = await fetchFormById(formId);
+        if (response?.success) {
+          if (!response.form) return;
+          const form = response.form;
           console.log(form, "form useeffect");
-
           setFormData(form);
           // Parse `blocks` from the form's `jsonBlocks`
           if (form.jsonBlocks) {
