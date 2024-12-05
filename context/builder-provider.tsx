@@ -70,6 +70,8 @@ export default function BuilderContextProvider({
         if (!formId) return;
         const { form } = await fetchFormById(formId);
         if (form) {
+          console.log(form, "form useeffect");
+
           setFormData(form);
           // Parse `blocks` from the form's `jsonBlocks`
           if (form.jsonBlocks) {
