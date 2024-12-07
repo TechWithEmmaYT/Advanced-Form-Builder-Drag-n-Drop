@@ -60,56 +60,17 @@ export default function BuilderContextProvider({
   const [selectedBlockLayout, setSeletedBlockLayout] =
     useState<FormBlockInstance | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!formId) return;
-
-      try {
-        setLoading(true);
-        const response = await fetchFormById(formId);
-        if (response?.success && response.form) {
-          const { form } = response;
-          setFormData(form);
-          form.jsonBlocks && setBlocks(JSON.parse(form.jsonBlocks));
-        }
-      } catch (error) {
-        console.error("Error fetching form:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [formId]);
-
-  // FOR DEPLOYMENT BECAUSE SERVER ACTION HAS ISSUE WITH USEEFFECT
-
   // useEffect(() => {
   //   const fetchData = async () => {
+  //     if (!formId) return;
+
   //     try {
   //       setLoading(true);
-  //       if (!formId) return;
-  //       const response = await fetch("/api/fetchFormById", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ formId }),
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch form");
-  //       }
-  //       const { data } = await response.json();
-  //       const { form } = data;
-  //       if (form) {
-  //         console.log(form, "form useeffect");
+  //       const response = await fetchFormById(formId);
+  //       if (response?.success && response.form) {
+  //         const { form } = response;
   //         setFormData(form);
-  //         // Parse `blocks` from the form's `jsonBlocks`
-  //         if (form.jsonBlocks) {
-  //           const parsedBlocks = JSON.parse(form.jsonBlocks);
-  //           setBlocks(parsedBlocks);
-  //         }
+  //         form.jsonBlocks && setBlocks(JSON.parse(form.jsonBlocks));
   //       }
   //     } catch (error) {
   //       console.error("Error fetching form:", error);
@@ -120,6 +81,45 @@ export default function BuilderContextProvider({
 
   //   fetchData();
   // }, [formId]);
+
+  // FOR DEPLOYMENT BECAUSE SERVER ACTION HAS ISSUE WITH USEEFFECT
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (!formId) return;
+        const response = await fetch("/api/fetchFormById", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ formId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch form");
+        }
+        const { data } = await response.json();
+        const { form } = data;
+        if (form) {
+          console.log(form, "form useeffect");
+          setFormData(form);
+          // Parse `blocks` from the form's `jsonBlocks`
+          if (form.jsonBlocks) {
+            const parsedBlocks = JSON.parse(form.jsonBlocks);
+            setBlocks(parsedBlocks);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching form:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [formId]);
 
   const addBlock = (block: FormBlockInstance) => {
     setBlocks((prev) => {
