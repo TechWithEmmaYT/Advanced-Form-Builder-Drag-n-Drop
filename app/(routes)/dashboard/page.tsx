@@ -1,16 +1,17 @@
 import React, { Suspense } from "react";
+import { Loader } from "lucide-react";
 import FormItem from "./_components/_common/FormItem";
 import { Separator } from "@/components/ui/separator";
 import { fetchAllForms, fetchFormStats } from "@/actions/form.action";
-import StatsList from "./_components/StatsList";
 import CreateForm from "./_components/CreateForm";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Loader } from "lucide-react";
+import StatsCards from "./_components/StatsCards";
 
 const Dashboard = () => {
   return (
     <div className="w-full  pt-8">
       <div className="w-full max-w-6xl mx-auto pt-1">
+        {/* {FORM STATS} */}
+
         <section className="stats-section w-full">
           <div className="w-full flex items-center justify-between py-5">
             <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
@@ -21,6 +22,8 @@ const Dashboard = () => {
         <div className="mt-10">
           <Separator className="!border-[#eee] !bg-[#eee]" />
         </div>
+
+        {/* {ALL FORM} */}
         <section className=" w-full pt-7 pb-10">
           <div className="w-full flex items-center mb-4">
             <h5 className="text-xl font-semibold tracking-tight">All Forms</h5>
@@ -42,7 +45,7 @@ const Dashboard = () => {
 
 async function StatsListWrap() {
   const stats = await fetchFormStats();
-  return <StatsList loading={false} data={stats} />;
+  return <StatsCards loading={false} data={stats} />;
 }
 
 async function FormList() {

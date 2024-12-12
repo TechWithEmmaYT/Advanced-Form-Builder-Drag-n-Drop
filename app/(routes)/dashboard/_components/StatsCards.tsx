@@ -9,7 +9,7 @@ import {
 import { fetchFormStats } from "@/actions/form.action";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const StatsCard = (props: {
+const StatsCards = (props: {
   data: Awaited<ReturnType<typeof fetchFormStats>>;
   loading: boolean;
 }) => {
@@ -88,4 +88,4 @@ const StatsCard = (props: {
   );
 };
 
-export default StatsCard;
+export default StatsCards;

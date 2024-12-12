@@ -9,11 +9,8 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useBuilder } from "@/context/builder-provider";
-import {
-  FormBlockInstance,
-  FormBlocks,
-  FormBlockType,
-} from "@/@types/form-block.type";
+import { FormBlockInstance, FormBlockType } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 import { generateUniqueId } from "@/lib/helper";
 import { blockLayouts } from "@/constant";
 
@@ -24,7 +21,6 @@ const BuilderCanvas = () => {
 
     insertBlockLayoutAtIndex,
     repositionBlockLayout,
-    handleSelectedLayout,
   } = useBuilder();
 
   const [activeBlock, setActiveBlock] = useState<Active | null>(null);
@@ -45,13 +41,12 @@ const BuilderCanvas = () => {
       const { active, over } = event;
       if (!over || !active) return;
       setActiveBlock(null);
+      //isBlockLayout === "RowLayout" &&
 
       const isBlockBtnElement = active.data?.current?.isBlockBtnElement;
       const isBlockLayout = active.data?.current?.blockType;
 
       const isDraggingOverCanvas = over.data?.current?.isBuilderCanvasDropArea;
-
-      //isBlockLayout === "RowLayout" &&
 
       if (
         isBlockBtnElement &&
@@ -188,7 +183,7 @@ function CanvasBlockWrapper({
   const CanvasBlock = FormBlocks[blockLayout.blockType].canvasComponent;
 
   const topCorner = useDroppable({
-    id: blockLayout.id,
+    id: blockLayout.id + "_above",
     data: {
       blockType: blockLayout.blockType,
       blockId: blockLayout.id,
@@ -197,7 +192,7 @@ function CanvasBlockWrapper({
   });
 
   const bottomCorner = useDroppable({
-    id: blockLayout.id + "_bottom_half",
+    id: blockLayout.id + "_below",
     data: {
       blockType: blockLayout.blockType,
       blockId: blockLayout.id,
@@ -206,13 +201,14 @@ function CanvasBlockWrapper({
   });
   return (
     <div className="relative">
+      {/* //skip this in rowlayout Chapter */}
       <div
         ref={topCorner.setNodeRef}
         className="absolute top-0 w-full h-1/2 rounded-t-md pointer-events-none"
       >
         {topCorner.isOver &&
           !blockLayout.isLocked &&
-          activeBlock?.data?.current?.blockType === "RowLayout" && (
+          blockLayouts.includes(activeBlock?.data?.current?.blockType) && (
             <div className="absolute w-full -top-[4px] h-[6px] bg-primary rounded-t-md"></div>
           )}
       </div>
@@ -223,11 +219,10 @@ function CanvasBlockWrapper({
       >
         {bottomCorner.isOver &&
           !blockLayout.isLocked &&
-          activeBlock?.data?.current?.blockType === "RowLayout" && (
+          blockLayouts.includes(activeBlock?.data?.current?.blockType) && (
             <div className="absolute w-full bottom-[1px] h-[6px] bg-primary rounded-b-md"></div>
           )}
       </div>
-
       <div className="relative mb-1">
         <CanvasBlock blockInstance={blockLayout} />
       </div>

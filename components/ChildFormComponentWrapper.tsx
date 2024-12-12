@@ -1,8 +1,6 @@
-import {
-  FormBlockInstance,
-  FormBlocks,
-  HandleBlurFunc,
-} from "@/@types/form-block.type";
+import { FormBlockInstance, HandleBlurFunc } from "@/@types/form-block.type";
+
+import { FormBlocks } from "@/lib/form-blocks";
 
 const ChildFormComponentWrapper = ({
   block,

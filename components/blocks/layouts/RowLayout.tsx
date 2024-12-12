@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { Copy, GripHorizontalIcon, Rows2, Trash2Icon, X } from "lucide-react";
 import {
-  FormBlock,
-  FormBlockInstance,
-  FormBlocks,
-  FormBlockType,
-  FormCategoryType,
-  FormErrorsType,
-  HandleBlurFunc,
-} from "@/@types/form-block.type";
-import {
   Active,
   DragEndEvent,
   useDndMonitor,
   useDraggable,
   useDroppable,
 } from "@dnd-kit/core";
+import {
+  FormBlock,
+  FormBlockInstance,
+  FormBlockType,
+  FormCategoryType,
+  FormErrorsType,
+  HandleBlurFunc,
+} from "@/@types/form-block.type";
 import { cn } from "@/lib/utils";
+import { FormBlocks } from "@/lib/form-blocks";
 import { generateUniqueId } from "@/lib/helper";
 import { useBuilder } from "@/context/builder-provider";
 import { Card, CardContent, CardFooter } from "../../ui/card";
@@ -24,6 +24,7 @@ import ChildPropertiesComponentWrapper from "../../ChildPropertiesComponentWrapp
 import ChildFormComponentWrapper from "@/components/ChildFormComponentWrapper";
 import ChildCanvasComponentWrapper from "../../ChildCanvasComponentWrapper";
 import { Button } from "../../ui/button";
+import { blockLayouts } from "@/constant";
 
 const blockType: FormBlockType = "RowLayout";
 const blockCategory: FormCategoryType = "Layout";
@@ -64,7 +65,7 @@ function RowLayoutCanvasComponent({
 
   const [activeBlock, setActiveBlock] = useState<Active | null>(null);
 
-  const childrenBlocks = blockInstance.childblocks || [];
+  const childblocks = blockInstance.childblocks || [];
 
   const isSelected = selectedBlockLayout?.id === blockInstance.id;
 
@@ -86,6 +87,7 @@ function RowLayoutCanvasComponent({
     },
   });
 
+  //Come back to the
   useDndMonitor({
     onDragStart: (event) => {
       setActiveBlock(event.active);
@@ -98,13 +100,14 @@ function RowLayoutCanvasComponent({
       setActiveBlock(null);
 
       const isBlockBtnElement = active.data?.current?.isBlockBtnElement;
-      const isNotRowLayout = active.data?.current?.blockType !== "RowLayout";
+      //const isNotRowLayout = active.data?.current?.blockType !== "RowLayout";
+      const isLayout = active.data?.current?.blockType;
 
       const overBlockId = over?.id;
 
       if (
         isBlockBtnElement &&
-        isNotRowLayout &&
+        !blockLayouts.includes(isLayout) &&
         typeof overBlockId == "string" &&
         overBlockId === blockInstance.id
       ) {
@@ -112,7 +115,7 @@ function RowLayoutCanvasComponent({
         const newBlock = FormBlocks[blockType as FormBlockType].createInstance(
           generateUniqueId()
         );
-        const updatedChildrenBlock = [...childrenBlocks, newBlock];
+        const updatedChildrenBlock = [...childblocks, newBlock];
         updateBlockLayout(blockInstance.id, updatedChildrenBlock);
 
         // Select the row layout
@@ -128,7 +131,7 @@ function RowLayoutCanvasComponent({
 
   function removeChildBlock(e: { stopPropagation: () => void }, id: string) {
     e.stopPropagation();
-    const filteredBlock = childrenBlocks.filter((child) => child.id !== id);
+    const filteredBlock = childblocks.filter((child) => child.id !== id);
     updateBlockLayout(blockInstance.id, filteredBlock);
 
     if (isSelected)
@@ -181,7 +184,7 @@ function RowLayoutCanvasComponent({
             {droppable.isOver &&
               !blockInstance.isLocked &&
               activeBlock?.data?.current?.isBlockBtnElement &&
-              activeBlock?.data?.current?.blockType !== "RowLayout" && (
+              !blockLayouts.includes(activeBlock?.data?.current?.blockType) && (
                 <div className="relative border border-dotted border-primary bg-primary/10 w-full h-28">
                   <div
                     className="absolute left-1/2 top-0 -translate-x-1/2 text-xs bg-primary text-white 
@@ -193,11 +196,11 @@ function RowLayoutCanvasComponent({
               )}
 
             {/* If there are no blocks, show the placeholder */}
-            {!droppable.isOver && childrenBlocks?.length === 0 ? (
+            {!droppable.isOver && childblocks?.length === 0 ? (
               <PlaceHolder />
             ) : (
               <div className="flex w-full flex-col items-center justify-start  gap-4 py-4 px-3 ">
-                {childrenBlocks?.map((childblock) => (
+                {childblocks?.map((childblock) => (
                   <div className="flex items-center justify-center gap-1 h-auto w-full">
                     <ChildCanvasComponentWrapper
                       key={childblock.id}
@@ -258,7 +261,7 @@ function RowLayoutFormComponent({
   handleBlur?: HandleBlurFunc;
   formErrors?: FormErrorsType;
 }) {
-  const childrenBlocks = blockInstance.childblocks || [];
+  const childblocks = blockInstance.childblocks || [];
 
   return (
     <div className="max-w-full">
@@ -274,7 +277,7 @@ function RowLayoutFormComponent({
         <CardContent className="px-2 pb-2">
           <div className="flex flex-wrap gap-2">
             <div className="flex w-full flex-col items-center justify-start  gap-4 py-4 px-3 ">
-              {childrenBlocks?.map((childblock) => (
+              {childblocks?.map((childblock) => (
                 <div className="flex items-center justify-center gap-1 h-auto w-full">
                   <ChildFormComponentWrapper
                     key={childblock.id}

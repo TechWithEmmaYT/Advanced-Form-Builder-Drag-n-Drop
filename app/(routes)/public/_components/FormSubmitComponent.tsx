@@ -1,10 +1,11 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { FormBlockInstance, FormBlocks } from "@/@types/form-block.type";
+import { Loader } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { FormBlockInstance } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
-import { toast } from "@/hooks/use-toast";
-import { Loader } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { submitResponse } from "@/actions/form.action";
 
@@ -128,8 +129,6 @@ const FormSubmitComponent = (props: {
                         blockInstance={block}
                         handleBlur={handleBlur}
                         formErrors={formErrors}
-                        // isError={!!formErrors[block.id]} // Check if there's an error
-                        // errorMessage={formErrors[block.id]} // Pass error message
                       />
                     );
                   })}

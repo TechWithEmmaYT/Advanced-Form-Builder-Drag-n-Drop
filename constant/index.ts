@@ -19,8 +19,8 @@ export const fontSizeClass = {
 
 export const blockLayouts = [
   "RowLayout",
-  "SectionLayout",
-  "ContainerLayout",
-  "ColumnLayout",
-  "GridLayout",
+  // "SectionLayout",
+  // "ContainerLayout",
+  // "ColumnLayout",
+  // "GridLayout",
 ];

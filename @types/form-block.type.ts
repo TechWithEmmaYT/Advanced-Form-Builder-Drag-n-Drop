@@ -1,20 +1,12 @@
-import { HeadingBlock } from "@/components/blocks/HeadingBlock";
-import { RowLayoutBlock } from "@/components/blocks/layouts/RowLayout";
-import { ParagraphBlock } from "@/components/blocks/ParagraphBlock";
-import { RadioSelectBlock } from "@/components/blocks/RadioSelectBlock";
-import { StarRatingBlock } from "@/components/blocks/StarRatingBlock";
-import { TextAreaBlock } from "@/components/blocks/TextAreaBlock";
-import { TextFieldBlock } from "@/components/blocks/TextField";
-
+export type FormCategoryType = "Layout" | "Form";
 export type FormBlockType =
   | "RowLayout"
   | "Heading"
   | "Paragraph"
-  | "TextArea"
   | "RadioSelect"
+  | "TextArea"
   | "TextField"
   | "StarRating";
-export type FormCategoryType = "Layout" | "Form";
 
 export type HandleBlurFunc = (key: string, value: string) => void;
 
@@ -23,8 +15,8 @@ export type FormErrorsType = {
 };
 
 export type FormBlock = {
-  blockType: FormBlockType;
   blockCategory: FormCategoryType;
+  blockType: FormBlockType;
 
   createInstance: (id: string) => FormBlockInstance;
 
@@ -58,15 +50,16 @@ export type FormBlockInstance = {
   isLocked?: boolean;
 };
 
-type FormBlocksType = {
+export type FormBlocksType = {
   [key in FormBlockType]: FormBlock;
 };
-export const FormBlocks: FormBlocksType = {
-  RowLayout: RowLayoutBlock,
-  Heading: HeadingBlock,
-  Paragraph: ParagraphBlock,
-  TextArea: TextAreaBlock,
-  RadioSelect: RadioSelectBlock,
-  TextField: TextFieldBlock,
-  StarRating: StarRatingBlock,
-};
+
+// export const FormBlocks: FormBlocksType = {
+//   RowLayout: RowLayoutBlock,
+//   Heading: HeadingBlock,
+//   Paragraph: ParagraphBlock,
+//   TextArea: TextAreaBlock,
+//   RadioSelect: RadioSelectBlock,
+//   TextField: TextFieldBlock,
+//   StarRating: StarRatingBlock,
+// };

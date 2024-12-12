@@ -1,4 +1,5 @@
-import { FormBlockInstance, FormBlocks } from "@/@types/form-block.type";
+import { FormBlockInstance } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 
 const ChildCanvasComponentWrapper = ({
   block,

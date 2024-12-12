@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BlockBtnElement from "@/components/BlockBtnElement";
-import { FormBlocks } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useBuilder } from "@/context/builder-provider";

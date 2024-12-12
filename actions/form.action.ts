@@ -162,6 +162,8 @@ export async function fetchAllForms() {
       },
     });
 
+    console.log(form, "form");
+
     return {
       success: true,
       message: "Form fetched successfully",

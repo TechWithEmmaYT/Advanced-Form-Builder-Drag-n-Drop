@@ -1,10 +1,10 @@
 import React from "react";
-import { Layout, MousePointerClickIcon } from "lucide-react";
+import { MousePointerClickIcon } from "lucide-react";
 import { useBuilder } from "@/context/builder-provider";
-import { FormBlocks } from "@/@types/form-block.type";
 import PreviewDialog from "./_common/PreviewDialog";
 import SaveFormBtn from "./_common/SaveFormBtn";
 import PublishFormBtn from "./_common/PublishFormBtn";
+import { FormBlocks } from "@/lib/form-blocks";
 
 const BuilderBlockProperties = () => {
   const { selectedBlockLayout } = useBuilder();
@@ -19,6 +19,7 @@ const BuilderBlockProperties = () => {
           className=" fixed right-0 w-[320px]  bg-white border-l shadow-sm
          h-screen pb-36 mt-0 scrollbar overflow-auto"
         >
+          {/* {CONTENT} */}
           <div className="flex flex-col w-full items-center h-auto min-h-full">
             <div className="w-full flex flex-row items-center bg-white pb-2 pt-3 sticky border-b border-gray-200 top-0 gap-2 px-2">
               <PreviewDialog />

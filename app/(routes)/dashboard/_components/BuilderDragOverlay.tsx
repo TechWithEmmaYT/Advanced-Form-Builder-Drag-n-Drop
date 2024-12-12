@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { Active, DragOverlay, useDndMonitor } from "@dnd-kit/core";
 import BlockBtnDragOverlay from "@/components/BlockBtnDragOverlay";
-import { FormBlocks, FormBlockType } from "@/@types/form-block.type";
+import { FormBlockType } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 import { useBuilder } from "@/context/builder-provider";
 
 const BuilderDragOverlay = () => {

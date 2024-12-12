@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useBuilder } from "@/context/builder-provider";
-import { FormBlocks } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
 import { defaultBackgroundColor } from "@/constant";
 
 const PreviewDialog = () => {
