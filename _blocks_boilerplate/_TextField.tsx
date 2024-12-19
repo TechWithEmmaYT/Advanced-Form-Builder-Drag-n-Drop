@@ -97,14 +97,8 @@ function TextFieldCanvasComponent({
 
 function TextFieldFormComponent({
   blockInstance,
-  handleBlur,
-  isError: isSubmitError,
-  errorMessage,
 }: {
   blockInstance: FormBlockInstance;
-  handleBlur?: HandleBlurFunc;
-  isError?: boolean;
-  errorMessage?: string;
 }) {
   const block = blockInstance as NewInstance;
   const { helperText, label, placeHolder, required } = block.attributes;
@@ -122,7 +116,7 @@ function TextFieldFormComponent({
     <div className="flex flex-col gap-2 w-full">
       <Label
         className={`text-base !font-normal mb-2 ${
-          isError || isSubmitError ? "text-red-500" : ""
+          isError ? "text-red-500" : ""
         }`}
       >
         {label}
@@ -135,11 +129,9 @@ function TextFieldFormComponent({
           const inputValue = event.target.value;
           const isValid = validateField(inputValue);
           setIsError(!isValid); // Set error state based on validation.
-          if (handleBlur) {
-            handleBlur(block.id, inputValue);
-          }
+        
         }}
-        className={`h-10 ${isError || isSubmitError ? "!border-red-500" : ""}`}
+        className={`h-10 ${isError ? "!border-red-500" : ""}`}
         placeholder={placeHolder}
       />
       {helperText && (
@@ -152,11 +144,7 @@ function TextFieldFormComponent({
             ? `This field is required.`
             : ""}
         </p>
-      ) : (
-        errorMessage && (
-          <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
-        )
-      )}
+      ) : null}
     </div>
   );
 }

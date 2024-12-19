@@ -106,14 +106,8 @@ function TextAreaCanvasComponent({
 
 function TextAreaFormComponent({
   blockInstance,
-  handleBlur,
-  isError: isSubmitError,
-  errorMessage,
 }: {
   blockInstance: FormBlockInstance;
-  handleBlur?: HandleBlurFunc;
-  isError?: boolean;
-  errorMessage?: string;
 }) {
   const block = blockInstance as NewInstance;
   const { label, placeHolder, required, helperText, rows, cols } =
@@ -132,7 +126,7 @@ function TextAreaFormComponent({
     <div className="flex flex-col gap-2 w-full">
       <Label
         className={`text-base !font-normal mb-2 ${
-          isError || isSubmitError ? "text-red-500" : ""
+          isError ? "text-red-500" : ""
         }`}
       >
         {label}
@@ -143,7 +137,7 @@ function TextAreaFormComponent({
         rows={rows || 3} // Default row value if not provided
         cols={cols || 50} // Default column value if not provided
         className={`resize-none !min-h-[50px] ${
-          isError || isSubmitError ? "!border-red-500" : ""
+          isError  ? "!border-red-500" : ""
         }`}
         value={value}
         onChange={(event) => setValue(event.target.value)}
@@ -151,9 +145,6 @@ function TextAreaFormComponent({
           const inputValue = event.target.value;
           const isValid = validateField(inputValue);
           setIsError(!isValid); // Set error state based on validation.
-          if (handleBlur) {
-            handleBlur(block.id, inputValue);
-          }
         }}
       />
       {helperText && (
@@ -166,11 +157,7 @@ function TextAreaFormComponent({
             ? `This field is required.`
             : ""}
         </p>
-      ) : (
-        errorMessage && (
-          <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
-        )
-      )}
+      ) : null}
     </div>
   );
 }

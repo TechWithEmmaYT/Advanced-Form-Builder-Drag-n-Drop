@@ -113,14 +113,8 @@ function StarRatingCanvasComponent({
 
 function StarRatingFormComponent({
   blockInstance,
-  handleBlur,
-  isError: isSubmitError,
-  errorMessage,
 }: {
   blockInstance: FormBlockInstance;
-  handleBlur?: HandleBlurFunc;
-  isError?: boolean;
-  errorMessage?: string;
 }) {
   const block = blockInstance as any;
   const { label, required, maxStars, helperText } = block.attributes;
@@ -132,9 +126,6 @@ function StarRatingFormComponent({
     setRating(newRating);
     const isValid = validateField(newRating);
     setIsError(!isValid);
-    if (handleBlur) {
-      handleBlur(block.id, newRating?.toString());
-    }
   };
 
   // Function to validate the field
@@ -149,7 +140,7 @@ function StarRatingFormComponent({
     <div className="flex flex-col gap-2 w-full mb-1">
       <Label
         className={`text-base !font-normal mb-1 ${
-          isError || isSubmitError ? "text-red-500" : ""
+          isError ? "text-red-500" : ""
         }`}
       >
         {label}
@@ -172,20 +163,16 @@ function StarRatingFormComponent({
             inactiveFillColor: "#fff",
             activeStrokeColor: defaultPrimaryColor,
             inactiveStrokeColor:
-              isError || isSubmitError ? "#ef4444" : defaultPrimaryColor,
+              isError  ? "#ef4444" : defaultPrimaryColor,
             itemStrokeWidth: 1,
           }}
         />
       </div>
-      {isError || isSubmitError ? (
+      {isError  ? (
         <p className="text-red-500 text-[0.8rem]">
           {required && rating === 0 ? "This field is required." : ""}
         </p>
-      ) : (
-        errorMessage && (
-          <p className="text-red-500 text-[0.8rem]">{errorMessage}</p>
-        )
-      )}
+      ) : null}
 
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
