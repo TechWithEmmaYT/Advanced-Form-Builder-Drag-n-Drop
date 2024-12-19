@@ -1,4 +1,5 @@
-import { FormBlockInstance, FormBlocks } from "@/@types/form-block.type";
+import { FormBlocks } from "@/lib/form-blocks";
+import { FormBlockInstance } from "@/@types/form-block.type";
 
 const ChildPropertiesComponentWrapper = ({
   index,
@@ -9,7 +10,8 @@ const ChildPropertiesComponentWrapper = ({
   parentId: string;
   block: FormBlockInstance;
 }) => {
-  const PropertiesComponent = FormBlocks[block.blockType]?.propertiesComponent;
+  const PropertiesComponent =
+    FormBlocks?.[block.blockType]?.propertiesComponent;
   if (!PropertiesComponent) return null; // Handle cases where no canvas component exists
 
   return (

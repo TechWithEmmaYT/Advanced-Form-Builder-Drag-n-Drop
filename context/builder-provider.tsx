@@ -88,13 +88,17 @@ export default function BuilderContextProvider({
       try {
         setLoading(true);
         if (!formId) return;
-        const response = await fetch("/api/fetchFormById", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ formId }),
-        });
+          const response = await fetch(`/api/forms?formId=${formId}`, {
+          method: "GET", // Use GET method
+         });
+          
+        // const response = await fetch("/api/fetchFormById", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ formId }),
+        // });
 
         if (!response.ok) {
           throw new Error("Failed to fetch form");

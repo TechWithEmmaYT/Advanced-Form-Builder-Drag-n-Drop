@@ -14,10 +14,10 @@ import { useBuilder } from "@/context/builder-provider";
 import { toast } from "@/hooks/use-toast";
 import { generateUniqueId } from "@/lib/helper";
 import { FormBlockInstance } from "@/@types/form-block.type";
-import { generateFormPrompt } from "@/lib/prompts";
+import { generateFormQuestionPrompt } from "@/lib/prompts";
 
 const AIAssistanceBtn = () => {
-  const { formData, setBlocks } = useBuilder();
+  const { formData, setBlocks, blocks } = useBuilder();
 
   const [userRequest, setUserRequest] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,10 +29,17 @@ const AIAssistanceBtn = () => {
       setLoading(true);
       const formName = formData?.name || "";
       const formDescription = formData?.description || "";
-      const PROMPT: string = generateFormPrompt(
+      // const PROMPT: string = generateFormPrompt(
+      //   userRequest,
+      //   formName,
+      //   formDescription
+      // );
+
+      const PROMPT: string = generateFormQuestionPrompt(
         userRequest,
         formName,
-        formDescription
+        formDescription,
+        blocks
       );
       const result = await AIChatSession.sendMessage(PROMPT);
       const responseText = await result.response.text();
@@ -48,8 +55,8 @@ const AIAssistanceBtn = () => {
           return [...prevBlocks, ...addUniqueIdToGeneratedBlocks];
         } else if (actionType === "createForm") {
           // Remove all existing blocks except those with `isLocked: true`
-          const lockedBlocks = prevBlocks.filter((block) => block.isLocked);
-          return [...lockedBlocks, ...addUniqueIdToGeneratedBlocks];
+          //const lockedBlocks = prevBlocks.filter((block) => block.isLocked);
+          return [...addUniqueIdToGeneratedBlocks];
         } else {
           console.warn(`Unhandled actionType: ${actionType}`);
           return prevBlocks; // If actionType is unknown, return the existing blocks without changes

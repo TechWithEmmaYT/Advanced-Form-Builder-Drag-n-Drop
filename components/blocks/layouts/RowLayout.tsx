@@ -152,7 +152,8 @@ function RowLayoutCanvasComponent({
       <Card
         ref={droppable.setNodeRef}
         className={cn(
-          `w-full bg-white relative border shadow-sm min-h-[120px] max-w-[768px]
+          `w-full bg-white relative border shadow-sm min-h-[120px] 
+          max-w-[768px]
           rounded-md !p-0`,
           blockInstance.isLocked && "!rounded-t-none"
         )}
@@ -162,7 +163,8 @@ function RowLayoutCanvasComponent({
       >
         <CardContent className="px-2 pb-2">
           {isSelected && !blockInstance.isLocked && (
-            <div className="w-[5px] absolute left-0 top-0 rounded-l-md  h-full bg-primary" />
+            <div className="w-[5px] absolute left-0 top-0 rounded-l-md  h-full 
+            bg-primary" />
           )}
 
           {!blockInstance.isLocked && (
@@ -170,7 +172,8 @@ function RowLayoutCanvasComponent({
               {...draggable.listeners}
               {...draggable.attributes}
               role="button"
-              className="flex items-center w-full h-[24px] cursor-move justify-center"
+              className="flex items-center w-full h-[24px] 
+              cursor-move justify-center"
             >
               <GripHorizontalIcon
                 size="20px"
@@ -199,9 +202,12 @@ function RowLayoutCanvasComponent({
             {!droppable.isOver && childblocks?.length === 0 ? (
               <PlaceHolder />
             ) : (
-              <div className="flex w-full flex-col items-center justify-start  gap-4 py-4 px-3 ">
+              <div className="flex w-full flex-col items-center justify-start
+                gap-4 py-4 px-3 ">
+
                 {childblocks?.map((childblock) => (
-                  <div className="flex items-center justify-center gap-1 h-auto w-full">
+                  <div className="flex items-center justify-center gap-1 
+                  h-auto w-full">
                     <ChildCanvasComponentWrapper
                       key={childblock.id}
                       block={childblock}
@@ -224,7 +230,8 @@ function RowLayoutCanvasComponent({
         </CardContent>
 
         {isSelected && !blockInstance.isLocked && (
-          <CardFooter className="flex items-center gap-3 justify-end border-t py-3">
+          <CardFooter className="flex items-center gap-3 justify-end 
+          border-t py-3">
             <Button
               variant="outline"
               size="icon"
@@ -323,7 +330,10 @@ function RowLayoutPropertiesComponent({
 
 function PlaceHolder() {
   return (
-    <div className="flex flex-col items-center justify-center border border-dotted border-primary bg-primary/10 hover:bg-primary/5 w-full h-28 text-primary font-medium text-base gap-1">
+    <div className="flex flex-col items-center justify-center border 
+    border-dotted border-primary bg-primary/10 hover:bg-primary/5 
+    w-full h-28 text-primary font-medium text-base gap-1">
+
       <p className="text-center text-primary/80">
         Drag and drop a block here to get started
       </p>

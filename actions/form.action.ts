@@ -105,6 +105,7 @@ export async function createForm(data: { name: string; description: string }) {
         backgroundColor: defaultBackgroundColor,
       },
     });
+    
     const form = await prisma.form.create({
       data: {
         name: data.name,

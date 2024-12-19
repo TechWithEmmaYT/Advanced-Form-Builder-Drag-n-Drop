@@ -27,8 +27,11 @@ const SideMenu = () => {
     },
   ];
   return (
-    <aside className="fixed h-screen z-40  -ml-1 -mt-1 -mb-1 w-[50px] pt-5 border-r border shadow-sm bg-black text-white">
-      <ul className="p-0 flex items-center flex-col space-y-2 justify-start w-full">
+    <aside className="fixed h-screen z-40  -ml-1 
+    -mt-1 -mb-1 w-[50px] pt-5 border-r border shadow-sm 
+    bg-black text-white">
+      <ul className="p-0 flex items-center flex-col 
+      space-y-2 justify-start w-full">
         {navMenu.map((item) => (
           <li key={item.title}>
             <button

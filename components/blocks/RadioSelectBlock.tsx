@@ -84,7 +84,8 @@ function RadioSelectCanvasComponent({
       </Label>
       <RadioGroup
         disabled
-        className="space-y-3 disabled:cursor-default !pointer-events-none !cursor-default"
+        className="space-y-3 
+        disabled:cursor-default !pointer-events-none !cursor-default"
       >
         {options.map((option: string, index: number) => (
           <div key={index} className="flex items-center space-x-2">
@@ -227,8 +228,11 @@ function RadioSelectPropertiesComponent({
 
   return (
     <div className="w-full pb-4">
-      <div className="w-full flex flex-row items-center justify-between gap-1 bg-gray-100 h-auto p-1 px-2 mb-[10px]">
-        <span className="text-sm font-medium text-gray-600 tracking-wider">
+      <div className="w-full flex flex-row items-center 
+      justify-between gap-1 bg-gray-100 h-auto p-1 px-2 
+      mb-[10px]">
+        <span className="text-sm font-medium text-gray-600
+         tracking-wider">
           Radio {positionIndex}
         </span>
         <ChevronDown className="w-4 h-4" />
@@ -245,7 +249,8 @@ function RadioSelectPropertiesComponent({
             name="label"
             render={({ field }) => (
               <FormItem className="text-end">
-                <div className="flex items-baseline justify-between w-full gap-2">
+                <div className="flex items-baseline 
+                justify-between w-full gap-2">
                   <FormLabel className="text-[13px] font-normal">
                     Label
                   </FormLabel>
